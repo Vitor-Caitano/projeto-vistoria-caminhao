@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>SPA Cadastro de Pets</title>
+
+    <link rel="stylesheet" href="style/style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Sistema de Vistoria de Caminhões</h1>
+
+    <div id="mensagem"></div>
+
+    <section class="card">
+
+        <h2>Dados do Usuário</h2>
+
+        <br>
+
+        <input type="hidden" id="id">
+
+        <label>Nome</label>
+        <input type="text" id="nome">
+
+        <label>Email</label>
+        <input type="text" id="especie">
+
+        <label for="tipoUsuario">Tipo de usuário</label>
+        <br>
+        <select name="t_usuario" id="tipoUsuario">
+            <option value="1">analista</option>
+            <option value="2">operador</option>
+        </select>
+
+        <div class="acoes">
+
+            <button id="btnSalvar">
+                Salvar
+            </button>
+
+            <button id="btnNovo">
+                Novo
+            </button>
+
+        </div>
+
+    </section>
+
+    <section class="card">
+
+        <h2>Pesquisar por Tipo</h2>
+
+        <input id="tipoBusca">
+
+        <button id="btnBuscarTipo">
+            Buscar
+        </button>
+
+        <button id="btnListarTodos">
+            Todos
+        </button>
+
+    </section>
+
+    <section class="card">
+
+        <h2>Pets Cadastrados</h2>
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Espécie</th>
+                    <th>Raça</th>
+                    <th>Idade</th>
+                    <th>Dono</th>
+                    <th>Tipo</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+
+            <tbody id="tbodyPets">
+
+            </tbody>
+
+        </table>
+
+        <div id="pagination">
+
+        </div>
+
+    </section>
+
+</div>
+
+<script type="module" src="front/app.js"></script>
+
+</body>
+</html>
