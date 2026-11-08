@@ -1,113 +1,126 @@
-sql = require('mysql2')
+require('dotenv').config();
 
-class UsuarioDB
-{
+const sql = require('mysql2');
+
+class UsuarioDB {
     //Função para conectar localmente com o banco de dados
     //Senha censurada. Testes devem ser feitos localmente
-    static connect()
-    {
+    static connect() {
         let connection = sql.createConnection({
-            user: 'root',
-            host: 'localhost',
-            password: 'password',
-            database: 'vistoriacaminhao'
-        })
+            host: process.env.DB_HOST,
+            user: process.env.DB_USER,
+            password: process.env.DB_PASSWORD,
+            database: process.env.DB_NAME,
+            port: Number(process.env.DB_PORT)
+        });
 
-        connection.connect()
-        return connection
+        return connection;
     }
 
     //MÉTODOS PARA ACESSAR, DELETAR E ATUALIZAR USUÁRIOS NO BANCO
 
     //LISTA GERAL DE USUÁRIOS
-    static getUsuarios(callback)
-    {
-        let connection = UsuarioDB.connect()
-        let sql = 'select * from usuario'
-        let query = connection.query(sql, function(error, results, fields) {
-            if(error)
-                throw error
+    static getUsuarios(callback) {
+        let connection = UsuarioDB.connect();
 
-            callback(results)
+        let sql = 'SELECT * FROM Usuario';
+
+        connection.query(sql, function (error, results) {
+            connection.end();
+
+            if (error) {
+                throw error;
+            }
+
+            callback(results);
         })
-        console.log(query.sql)
-        connection.end()
     }
 
     //USUÁRIO COM ID ESPECÍFICO
-    static getUsuarioById(id, callback)
-    {
-        let connection = UsuarioDB.connect()
-        let sql = 'select * from usuario where idUsuario = ?'
-        let query = connection.query(sql, id, function(error, results, fields) {
-            if(error)
-                throw error
+    static getUsuarioById(id, callback) {
+        let connection = UsuarioDB.connect();
 
-            callback(results)
-        })
-        console.log(query.sql)
-        connection.end()
+        let sql = 'SELECT * FROM Usuario WHERE ID_usuario = ?';
+
+        connection.query(sql, id, function (error, results) {
+            connection.end();
+
+            if (error) {
+                throw error;
+            }
+
+            callback(results);
+        });
     }
 
     //LISTA DE USUÁRIOS POR TIPO
-    static getUsuarioByTipo(tipo, callback)
-    {
-        let connection = UsuarioDB.connect()
-        let sql = 'select * from usuario where tipoUsuario = ?'
-        let query = connection.query(sql, tipo, function(error, results, fields) {
-            if(error)
-                throw error
+    static getUsuarioByTipo(tipo, callback) {
+        let connection = UsuarioDB.connect();
 
-            callback(results)
-        })
-        console.log(query.sql)
-        connection.end()
+        let sql = 'SELECT * FROM Usuario WHERE Tipo_Usuario = ?';
+
+        connection.query(sql, tipo, function (error, results) {
+            connection.end();
+
+            if (error) {
+                throw error;
+            }
+
+            callback(results);
+        });
     }
 
     //SALVAR UM NOVO USUÁRIO
-    static saveUsuario(usuario, callback)
-    {
-        let connection = UsuarioDB.connect()
-        let sql = 'insert into usuario set ?'
-        let query = connection.query(sql, usuario, function(error, results, fields) {
-            if(error)
-                throw error
+    static saveUsuario(usuario, callback) {
+        let connection = UsuarioDB.connect();
 
-            usuario.id = results.insertId
-            callback(usuario)
-        })
-        console.log(query.sql)
-        connection.end()
+        let sql = 'INSERT INTO Usuario SET ?';
+
+        connection.query(sql, usuario, function (error, results) {
+            connection.end();
+
+            if (error) {
+                throw error;
+            }
+
+            usuario.ID_usuario = results.insertId;
+            callback(usuario);
+        });
     }
 
     //APAGAR UM USUÁRIO DE ID ESPECÍFICO
-    static deleteUsuario(id, callback)
-    {
-        let connection = UsuarioDB.connect()
-        let sql = 'delete from usuario where idUsuario = ?'
-        let query = connection.query(sql, id, function(error, results, fields) {
-            if(error)
-                throw error
+    static deleteUsuario(id, callback) {
+        let connection = UsuarioDB.connect();
 
-            callback(results.affectedRows)
-        })
-        console.log(query.sql)
-        connection.end()
+        let sql = 'DELETE FROM Usuario WHERE ID_usuario = ?';
+
+        connection.query(sql, id, function (error, results) {
+            connection.end();
+
+            if (error) {
+                throw error;
+            }
+
+            callback(results.affectedRows);
+        });
     }
 
     //MODIFICAR UM USUÁRIO ESPECÍFICO POR ID
-    static updateUsuario(id, usuario, callback)
-    {
-        let connection = UsuarioDB.connect()
-        let sql = 'update usuario set ? where idUsuario = ?'
-        let query = connection.query(sql, [usuario, id], function(error, results, fields) {
-            if(error)
-                throw error
+    static updateUsuario(id, usuario, callback) {
+        let connection = UsuarioDB.connect();
 
-            usuario.id = results.insertId
-            callback(usuario)
-        })
-        console.log(query.sql)
-        connection.end()
+        let sql = 'UPDATE Usuario SET ? WHERE ID_usuario = ?';
+
+        connection.query(sql, [usuario, id], function (error, results) {
+            connection.end();
+
+            if (error) {
+                throw error;
+            }
+
+            callback(results.affectedRows);
+        });
     }
 }
+
+module.exports = UsuarioDB;
