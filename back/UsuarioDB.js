@@ -1,4 +1,4 @@
-sql = require('mysql2')
+var sql = require('mysql2')
 
 class UsuarioDB
 {
@@ -111,3 +111,5 @@ class UsuarioDB
         connection.end()
     }
 }
+
+module.exports = UsuarioDB
