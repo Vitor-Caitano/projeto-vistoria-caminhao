@@ -93,7 +93,7 @@ app.patch('/vistoria/usuarios/:id', function(req, res) {
         return
     }
 
-    UsuarioDB.updateUsuario(id, update, function(usuario) {
+    UsuarioDB.updateParcialUsuario(id, update, function(usuario) {
         res.json({
             msg: 'produto atualizado com sucesso'
         })

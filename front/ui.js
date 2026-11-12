@@ -16,20 +16,18 @@ export function limparFormulario(){
 
     document.getElementById("id").value="";
     document.getElementById("nome").value="";
-    document.getElementById("especie").value="";
-    document.getElementById("raca").value="";
-    document.getElementById("idade").value="";
-    document.getElementById("dono").value="";
-    document.getElementById("tipo").value="";
+    document.getElementById("email").value="";
+    document.getElementById("tipoUsuario").value="analista";
+    document.getElementById("nVistorias").value="";
+    document.getElementById("nOcorrencias").value="";
 }
 
-export function preencherFormulario(pet){
+export function preencherFormulario(usuario){
 
-    document.getElementById("id").value = pet.id;
-    document.getElementById("nome").value = pet.nome;
-    document.getElementById("especie").value = pet.especie;
-    document.getElementById("raca").value = pet.raca;
-    document.getElementById("idade").value = pet.idade;
-    document.getElementById("dono").value = pet.dono;
-    document.getElementById("tipo").value = pet.tipo;
+    document.getElementById("id").value = usuario.idUsuario;
+    document.getElementById("nome").value = usuario.nome;
+    document.getElementById("email").value = usuario.email;
+    document.getElementById("tipoUsuario").value = usuario.tipoUsuario;
+    document.getElementById("nVistorias").value = Number(usuario.numVistorias);
+    document.getElementById("nOcorrencias").value = Number(usuario.numOcorrencias);
 }

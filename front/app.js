@@ -40,15 +40,6 @@ window.addEventListener("DOMContentLoaded",()=>{
     .addEventListener("click",
         limparFormulario);
 
-    document
-    .getElementById("btnBuscarTipo")
-    .addEventListener("click",
-        pesquisarTipo);
-
-    document
-    .getElementById("btnListarTodos")
-    .addEventListener("click",
-        carregarPets);
 });
 
 async function carregarPets(){
@@ -74,29 +65,29 @@ function renderizarTabela(){
             itensPorPagina
         );
 
-    pagina.forEach(pet=>{
+    pagina.forEach(usuario=>{
 
         tbody.innerHTML+=`
         <tr>
-            <td>${pet.id}</td>
-            <td>${pet.nome}</td>
-            <td>${pet.especie}</td>
-            <td>${pet.raca}</td>
-            <td>${pet.idade}</td>
-            <td>${pet.dono}</td>
-            <td>${pet.tipo}</td>
+            <td>${usuario.idUsuario}</td>
+            <td>${usuario.nome}</td>
+            <td>${usuario.email}</td>
+            <td>${usuario.tipoUsuario}</td>
+            <td>${usuario.dataAdesao.split('T')[0]}</td>
+            <td>${usuario.numVistorias}</td>
+            <td>${usuario.numOcorrencias}</td>
 
             <td>
 
-            <button
-             onclick="editar(${pet.id})">
-             Editar
-            </button>
+                <button
+                    onclick="editar(${usuario.idUsuario})">
+                    Editar
+                </button>
 
-            <button
-             onclick="remover(${pet.id})">
-             Excluir
-            </button>
+                <button
+                    onclick="remover(${usuario.idUsuario})">
+                    Excluir
+                </button>
 
             </td>
         </tr>
@@ -143,7 +134,9 @@ window.editar = async function(id){
     const pet =
         await buscarPorId(id);
 
-    preencherFormulario(pet);
+    console.log(pet)
+
+    preencherFormulario(pet[0]);
 }
 
 window.remover = async function(id){
@@ -172,22 +165,21 @@ async function salvar() {
         nome:
         document.getElementById("nome").value,
 
-        especie:
-        document.getElementById("especie").value,
+        email:
+        document.getElementById("email").value,
 
-        raca:
-        document.getElementById("raca").value,
+        tipoUsuario:
+        document.getElementById("tipoUsuario").value,
 
-        idade:
+        numVistorias:
         Number(
-            document.getElementById("idade").value
+            document.getElementById("nVistorias").value
         ),
 
-        dono:
-        document.getElementById("dono").value,
-
-        tipo:
-        document.getElementById("tipo").value
+        numOcorrencias:
+        Number(
+            document.getElementById("nOcorrencias").value
+        )
     };
 
     const erros = validarPet(pet);
@@ -205,10 +197,9 @@ async function salvar() {
     try{
 
         if(id){
+            console.log(pet)
 
-            pet.id = Number(id);
-
-            await atualizarPet(pet);
+            await atualizarPet(id, pet);
 
             mostrarMensagem(
                 "Pet atualizado",
@@ -216,6 +207,10 @@ async function salvar() {
             );
         }
         else{
+
+            pet.dataAdesao = `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()}`
+
+            console.log(pet)
 
             await salvarPet(pet);
 

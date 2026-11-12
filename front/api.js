@@ -27,7 +27,7 @@ export async function buscarPorTipo(tipo) {
 export async function salvarPet(pet) {
 
     const response =
-        await fetch(API_URL,{
+        await fetch(`${API_URL}/usuarios`,{
             method:"POST",
             headers:{
                 "Content-Type":"application/json"
@@ -38,11 +38,11 @@ export async function salvarPet(pet) {
     return await response.json();
 }
 
-export async function atualizarPet(pet){
+export async function atualizarPet(id, pet){
 
     const response =
-        await fetch(API_URL,{
-            method:"PUT",
+        await fetch(`${API_URL}/usuarios/${id}`,{
+            method:"PATCH",
             headers:{
                 "Content-Type":"application/json"
             },
@@ -55,7 +55,7 @@ export async function atualizarPet(pet){
 export async function excluirPet(id){
 
     const response =
-        await fetch(`${API_URL}/${id}`,{
+        await fetch(`${API_URL}/usuarios/${id}`,{
             method:"DELETE"
         });
 

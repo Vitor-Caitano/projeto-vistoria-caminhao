@@ -15,34 +15,39 @@ main{
 }
 
 header {
-    padding: 10px;
-    padding-left: 35px;
-    background-color: #cc7e00;
+    padding: 6px;
+    padding-left: 40px;
+    background-color: black;
     box-shadow: 0 2px 5px rgba(0,0,0,.2);
+    margin-bottom: 20px;
 }
 
 .container{
-    max-width:1200px;
+    max-width:90%;
     margin:auto;
 }
 
-h1{
+h1 {
     margin-bottom:20px;
+    font-size: 2.6em;
+}
+
+h2 {
+    margin: 15px 0;
+    font-size: 2em;
 }
 
 .card{
     background:white;
-    padding:20px;
-    margin-bottom:20px;
+    padding:15px 25px;
     border-radius:4px;
-    box-shadow: 0 2px 5px rgba(0,0,0,.5);
+    box-shadow: 0 2px 5px rgba(0,0,0,.2);
+    margin: 10px;
 }
 
-.cardTabela {
-    background: white;
-    padding: 20px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 5px rgba(0,0,0,.5);
+select{
+    padding: 10px;
+    border: 1px solid #bbb;
 }
 
 input{
@@ -50,6 +55,12 @@ input{
     padding:10px;
     margin-top:4px;
     margin-bottom:12px;
+    border: 1px solid #bbb;
+}
+
+input::placeholder{
+    color: black;
+    font-size: 1.2em;
 }
 
 #tipoUsuario {
@@ -60,6 +71,7 @@ input{
 
 button{
     padding:10px 15px;
+    margin: 10px 5px;
     border:none;
     cursor:pointer;
     background:#cc7e00;
@@ -84,6 +96,8 @@ button:hover{
     color: white !important;
 }
 
+
+
 .acoes{
     display:flex;
     gap:10px;
@@ -97,10 +111,10 @@ table{
 th{
     background:#cc7e00;
     color:white;
+    border:1px solid #cf834a;
 }
 
 th,td{
-    border:1px solid #ddd;
     padding:10px;
     text-align:center;
 }

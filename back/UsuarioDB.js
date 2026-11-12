@@ -9,7 +9,7 @@ class UsuarioDB
         let connection = sql.createConnection({
             user: 'root',
             host: 'localhost',
-            password: 'password',
+            password: '#A4n11MM@@317',
             database: 'vistoriacaminhao'
         })
 
@@ -105,6 +105,20 @@ class UsuarioDB
                 throw error
 
             usuario.id = results.insertId
+            callback(usuario)
+        })
+        console.log(query.sql)
+        connection.end()
+    }
+
+    static updateParcialUsuario(id, usuario, callback)
+    {
+        let connection = UsuarioDB.connect()
+        let sql = 'update usuario set ? where idUsuario = ?'
+        let query = connection.query(sql, [usuario, id], function(error, results, fields) {
+            if(error)
+                throw error
+
             callback(usuario)
         })
         console.log(query.sql)
