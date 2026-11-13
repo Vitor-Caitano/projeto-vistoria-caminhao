@@ -1,13 +1,16 @@
+let temporizadorMensagem;
+
 export function mostrarMensagem(texto,tipo){
 
     const div =
         document.getElementById("mensagem");
 
+    clearTimeout(temporizadorMensagem);
     div.className = tipo;
-    div.innerText = texto;
+    div.textContent = texto;
 
-    setTimeout(()=>{
-        div.innerHTML="";
+    temporizadorMensagem = setTimeout(()=>{
+        div.textContent="";
         div.className="";
     },3000);
 }
@@ -28,6 +31,6 @@ export function preencherFormulario(usuario){
     document.getElementById("nome").value = usuario.nome;
     document.getElementById("email").value = usuario.email;
     document.getElementById("tipoUsuario").value = usuario.tipoUsuario;
-    document.getElementById("nVistorias").value = Number(usuario.numVistorias);
-    document.getElementById("nOcorrencias").value = Number(usuario.numOcorrencias);
+    document.getElementById("nVistorias").value = usuario.numVistorias ?? "";
+    document.getElementById("nOcorrencias").value = usuario.numOcorrencias ?? "";
 }
