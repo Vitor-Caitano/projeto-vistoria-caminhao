@@ -1,0 +1,62 @@
+### Teste 1 - Campos obrigatórios ausentes
+POST http://localhost:3000/vistoria/agendamentos
+Content-Type: application/json
+{
+    "ID_Analista": 1
+}
+
+### Teste 2 - Dados completos
+POST http://localhost:3000/vistoria/agendamentos
+Content-Type: application/json=
+{
+    "ID_Analista": 1,
+    "Placa_Caminhao": "ABC1D23",
+    "Data_Prevista": "2026-11-16",
+    "Horario_Previsto": "08:00:00",
+    "Descricao": "Verificar pneus"
+}
+
+### Agendar vistoria
+POST http://localhost:3000/vistoria/agendamentos
+Content-Type: application/json
+
+{
+    "ID_Analista": 1,
+    "Placa_Caminhao": "ABC1D23",
+    "Data_Prevista": "2026-11-16",
+    "Horario_Previsto": "08:00:00",
+    "Descricao": "Verificar pneus"
+}
+
+### ID inválido
+POST http://localhost:3000/vistoria/agendamentos
+Content-Type: application/json
+
+{
+    "ID_Analista": -1,
+    "Placa_Caminhao": "ABC1D23",
+    "Data_Prevista": "2026-11-16",
+    "Horario_Previsto": "08:00:00"
+}
+
+### Data inexistente
+POST http://localhost:3000/vistoria/agendamentos
+Content-Type: application/json
+
+{
+    "ID_Analista": 1,
+    "Placa_Caminhao": "ABC1D23",
+    "Data_Prevista": "2026-02-30",
+    "Horario_Previsto": "08:00:00"
+}
+
+### Horário inválido
+POST http://localhost:3000/vistoria/agendamentos
+Content-Type: application/json
+
+{
+    "ID_Analista": 1,
+    "Placa_Caminhao": "ABC1D23",
+    "Data_Prevista": "2026-11-16",
+    "Horario_Previsto": "25:80:00"
+}

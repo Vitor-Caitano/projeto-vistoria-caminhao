@@ -44,9 +44,10 @@ class UsuarioDB
                 throw error
 
             callback(results)
+            //passei o .end para logo dps que a consulta retorna os dados
+            connection.end()
         })
         console.log(query.sql)
-        connection.end()
     }
 
     //LISTA DE USUÁRIOS POR TIPO
