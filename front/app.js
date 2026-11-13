@@ -40,6 +40,44 @@ window.addEventListener("DOMContentLoaded",()=>{
     .addEventListener("click",
         limparFormulario);
 
+
+    let botoesFiltro = [
+        document.getElementById('fTodos'),
+        document.getElementById('analistas'),
+        document.getElementById('operadores')
+    ]
+
+
+    document
+    .getElementById('fTodos')
+    .addEventListener('click', () => {
+         pesquisarTipo("todos")
+
+         botoesFiltro.forEach(botao => botao.classList.remove('ativado'))
+
+         document.getElementById('fTodos').classList.add('ativado')
+    })
+
+    document
+    .getElementById('analistas')
+    .addEventListener('click', () => {
+         pesquisarTipo("analista")
+
+         botoesFiltro.forEach(botao => botao.classList.remove('ativado'))
+
+         document.getElementById('analistas').classList.add('ativado')
+    })
+
+    document
+    .getElementById('operadores')
+    .addEventListener('click', () => {
+         pesquisarTipo("operador")
+
+         botoesFiltro.forEach(botao => botao.classList.remove('ativado'))
+
+         document.getElementById('operadores').classList.add('ativado')
+    })
+
 });
 
 async function carregarPets(){
@@ -233,14 +271,11 @@ async function salvar() {
     }
 }
 
-async function pesquisarTipo(){
+async function pesquisarTipo(tipo){
 
-    const tipo =
-      document
-      .getElementById("tipoBusca")
-      .value;
+    console.log(`Filtrando por: ${tipo}`)
 
-    if(tipo===""){
+    if(tipo==="todos"){
 
         carregarPets();
 
@@ -254,3 +289,4 @@ async function pesquisarTipo(){
 
     renderizarTabela();
 }
+

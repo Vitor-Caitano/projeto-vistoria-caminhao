@@ -22,11 +22,6 @@ header {
     margin-bottom: 20px;
 }
 
-.container{
-    max-width:90%;
-    margin:auto;
-}
-
 h1 {
     margin-bottom:20px;
     font-size: 2.6em;
@@ -35,14 +30,6 @@ h1 {
 h2 {
     margin: 15px 0;
     font-size: 2em;
-}
-
-.card{
-    background:white;
-    padding:15px 25px;
-    border-radius:4px;
-    box-shadow: 0 2px 5px rgba(0,0,0,.2);
-    margin: 10px;
 }
 
 select{
@@ -71,7 +58,7 @@ input::placeholder{
 
 button{
     padding:10px 15px;
-    margin: 10px 5px;
+    margin: 10px 0;
     border:none;
     cursor:pointer;
     background:#cc7e00;
@@ -81,22 +68,51 @@ button{
 
 button:hover{
     background:#efa123;
-    margin: 0;
 }
 
-#tipoBusca button {
+#filtros {
+    margin-left: 10px;
+    margin-bottom: 0;
+    margin-top: 20px;
+}
+
+#filtros button {
     border-radius: 0;
-    background-color: white;
-    box-shadow: 0 0 5px rgba(0,0,0,.3);
+    margin: 0;
+    background-color: #ddd;
     color: black;
+    border: solid 1px black;
+}
+
+#filtros button:hover {
+    background-color: #fff
+}
+
+#filtros .ativado:hover {
+    background-color: #eaa70b !important;
+}
+
+
+
+
+
+.card{
+    background:white;
+    padding:15px 25px;
+    border-radius:4px;
+    box-shadow: 0 2px 5px rgba(0,0,0,.2);
+    margin: 10px;
+}
+
+.container{
+    max-width:90%;
+    margin:auto;
 }
 
 .selecionado {
     background-color: #cc7e00 !important;
     color: white !important;
 }
-
-
 
 .acoes{
     display:flex;
@@ -142,4 +158,10 @@ th,td{
 
 .pagination button{
     margin:5px;
+}
+
+.ativado {
+    background-color: #cc7e00 !important;
+    border: 1px solid white !important;
+    color: white !important;
 }

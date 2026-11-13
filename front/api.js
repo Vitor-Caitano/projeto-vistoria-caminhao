@@ -19,7 +19,7 @@ export async function buscarPorId(id) {
 export async function buscarPorTipo(tipo) {
 
     const response =
-        await fetch(`${API_URL}usuarios/tipo/${tipo}`);
+        await fetch(`${API_URL}/usuarios/tipo/${tipo}`);
 
     return await response.json();
 }
