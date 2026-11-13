@@ -1,4 +1,4 @@
-export function validarPet(usuario){
+export function validarUsuario(usuario){
 
     let erros = [];
 
