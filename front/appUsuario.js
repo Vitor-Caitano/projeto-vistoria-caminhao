@@ -1,10 +1,10 @@
 import {
-    listarPets,
+    listarUsuarios,
     buscarPorId,
     buscarPorTipo,
-    salvarPet,
-    atualizarPet,
-    excluirPet
+    salvarUsuario,
+    atualizarUsuario,
+    excluirUsuario
 } from './api.js';
 
 import {
@@ -14,14 +14,16 @@ import {
 } from './ui.js';
 
 import {
-    validarPet
+    validarUsuario
 } from './validation.js';
 
 import {
     paginate
 } from './pagination.js';
 
-let pets = [];
+import { Usuario } from '../classes/usuario.js';
+
+let usuarios = [];
 
 let paginaAtual = 1;
 
@@ -29,7 +31,7 @@ const itensPorPagina = 5;
 
 window.addEventListener("DOMContentLoaded",()=>{
 
-    carregarPets();
+    carregarUsuarios();
 
     document
     .getElementById("btnSalvar")
@@ -80,9 +82,21 @@ window.addEventListener("DOMContentLoaded",()=>{
 
 });
 
-async function carregarPets(){
+async function carregarUsuarios(){
 
-    pets = await listarPets();
+    usuarios = await listarUsuarios();
+
+    usuarios = usuarios.map(usuario  => {
+        return new Usuario(
+            usuario.nome,
+            usuario.idUsuario,
+            usuario.email,
+            usuario.numVistorias,
+            usuario.numOcorrencias,
+            usuario.dataAdesao,
+            usuario.tipoUsuario
+        )
+    })
 
     paginaAtual = 1;
 
@@ -92,13 +106,13 @@ async function carregarPets(){
 function renderizarTabela(){
 
     const tbody =
-        document.getElementById("tbodyPets");
+        document.getElementById("tbodyUsuarios");
 
     tbody.innerHTML="";
 
     const pagina =
         paginate(
-            pets,
+            usuarios,
             paginaAtual,
             itensPorPagina
         );
@@ -107,23 +121,23 @@ function renderizarTabela(){
 
         tbody.innerHTML+=`
         <tr>
-            <td>${usuario.idUsuario}</td>
-            <td>${usuario.nome}</td>
-            <td>${usuario.email}</td>
-            <td>${usuario.tipoUsuario}</td>
-            <td>${usuario.dataAdesao.split('T')[0]}</td>
-            <td>${usuario.numVistorias}</td>
-            <td>${usuario.numOcorrencias}</td>
+            <td>${usuario.getId()}</td>
+            <td>${usuario.getNome()}</td>
+            <td>${usuario.getEmail()}</td>
+            <td>${usuario.getTipo()}</td>
+            <td>${usuario.getAdesao().split('T')[0]}</td>
+            <td>${usuario.getNumVistorias()}</td>
+            <td>${usuario.getNumOcorrencias()}</td>
 
             <td>
 
                 <button
-                    onclick="editar(${usuario.idUsuario})">
+                    onclick="editar(${usuario.getId()})">
                     Editar
                 </button>
 
                 <button
-                    onclick="remover(${usuario.idUsuario})">
+                    onclick="remover(${usuario.getId()})">
                     Excluir
                 </button>
 
@@ -139,7 +153,7 @@ function renderizarPaginas(){
 
     const qtd =
         Math.ceil(
-          pets.length /
+          usuarios.length /
           itensPorPagina
         );
 
@@ -169,12 +183,12 @@ window.irPagina = function(pagina){
 
 window.editar = async function(id){
 
-    const pet =
+    const usuario =
         await buscarPorId(id);
 
-    console.log(pet)
+    console.log(usuario)
 
-    preencherFormulario(pet[0]);
+    preencherFormulario(usuario[0]);
 }
 
 window.remover = async function(id){
@@ -182,14 +196,14 @@ window.remover = async function(id){
     if(!confirm("Deseja excluir?"))
         return;
 
-    await excluirPet(id);
+    await excluirUsuario(id);
 
     mostrarMensagem(
-        "Pet removido",
+        "Usuário removido",
         "sucesso"
     );
 
-    carregarPets();
+    carregarUsuarios();
 }
 
 
@@ -198,7 +212,7 @@ async function salvar() {
     const id =
         document.getElementById("id").value;
 
-    const pet = {
+    const usuario = {
 
         nome:
         document.getElementById("nome").value,
@@ -220,7 +234,7 @@ async function salvar() {
         )
     };
 
-    const erros = validarPet(pet);
+    const erros = validarUsuario(usuario);
 
     if(erros.length > 0){
 
@@ -235,32 +249,32 @@ async function salvar() {
     try{
 
         if(id){
-            console.log(pet)
+            console.log(usuario)
 
-            await atualizarPet(id, pet);
+            await atualizarUsuario(id, usuario);
 
             mostrarMensagem(
-                "Pet atualizado",
+                "Usuário atualizado",
                 "sucesso"
             );
         }
         else{
 
-            pet.dataAdesao = `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()}`
+            usuario.dataAdesao = `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()}`
 
-            console.log(pet)
+            console.log(usuario)
 
-            await salvarPet(pet);
+            await salvarUsuario(usuario);
 
             mostrarMensagem(
-                "Pet cadastrado",
+                "Usuário cadastrado",
                 "sucesso"
             );
         }
 
         limparFormulario();
 
-        carregarPets();
+        carregarUsuarios();
 
     }catch(erro){
 
@@ -277,12 +291,12 @@ async function pesquisarTipo(tipo){
 
     if(tipo==="todos"){
 
-        carregarPets();
+        carregarUsuarios();
 
         return;
     }
 
-    pets =
+    usuarios =
       await buscarPorTipo(tipo);
 
     paginaAtual = 1;
