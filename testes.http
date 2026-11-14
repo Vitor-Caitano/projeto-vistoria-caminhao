@@ -1,62 +1,263 @@
-### Teste 1 - Campos obrigatórios ausentes
-POST http://localhost:3000/vistoria/agendamentos
-Content-Type: application/json
-{
-    "ID_Analista": 1
-}
 
-### Teste 2 - Dados completos
-POST http://localhost:3000/vistoria/agendamentos
-Content-Type: application/json=
-{
-    "ID_Analista": 1,
-    "Placa_Caminhao": "ABC1D23",
-    "Data_Prevista": "2026-11-16",
-    "Horario_Previsto": "08:00:00",
-    "Descricao": "Verificar pneus"
-}
+@baseUrl = http://localhost:3000
 
-### Agendar vistoria
-POST http://localhost:3000/vistoria/agendamentos
+# SUBSTITUA PELOS DADOS REAIS DO SEU BANCO
+@idAnalista = 1
+@idOperador = 2
+@placa = ABC1234
+
+
+### TESTES DE SUCESSO 
+### TESTE 01 - Cadastro válido com descrição
+# Esperado: HTTP 201
+POST {{baseUrl}}/vistoria/agendamentos
 Content-Type: application/json
 
 {
     "ID_Analista": 1,
-    "Placa_Caminhao": "ABC1D23",
-    "Data_Prevista": "2026-11-16",
-    "Horario_Previsto": "08:00:00",
-    "Descricao": "Verificar pneus"
+    "Placa": "{{placa}}",
+    "Data_Prevista": "2026-11-20",
+    "Horario_Previsto": "09:00:00",
+    "Descricao": "Vistoria de rotina"
 }
 
-### ID inválido
-POST http://localhost:3000/vistoria/agendamentos
-Content-Type: application/json
-
-{
-    "ID_Analista": -1,
-    "Placa_Caminhao": "ABC1D23",
-    "Data_Prevista": "2026-11-16",
-    "Horario_Previsto": "08:00:00"
-}
-
-### Data inexistente
-POST http://localhost:3000/vistoria/agendamentos
+### TESTE 02 - Cadastro válido sem descrição
+# Esperado: HTTP 201
+# A descrição deve ser gravada como NULL.
+POST {{baseUrl}}/vistoria/agendamentos
 Content-Type: application/json
 
 {
     "ID_Analista": 1,
-    "Placa_Caminhao": "ABC1D23",
+    "Placa": "ABC1234",
+    "Data_Prevista": "2026-11-21",
+    "Horario_Previsto": "10:30:00"
+}
+
+
+### TESTES DE CAMPOS OBRIGATÓRIOS
+### TESTE 03 - Todos os campos vazios
+# Esperado: HTTP 400
+POST {{baseUrl}}/vistoria/agendamentos
+Content-Type: application/json
+
+{}
+
+### TESTE 04 - Sem ID do analista
+# Esperado: HTTP 400
+POST {{baseUrl}}/vistoria/agendamentos
+Content-Type: application/json
+
+{
+    "Placa": "ABC1234",
+    "Data_Prevista": "2026-11-20",
+    "Horario_Previsto": "09:00:00"
+}
+
+### TESTE 05 - Sem placa
+# Esperado: HTTP 400
+POST {{baseUrl}}/vistoria/agendamentos
+Content-Type: application/json
+
+{
+    "ID_Analista": 1,
+    "Data_Prevista": "2026-11-20",
+    "Horario_Previsto": "09:00:00"
+}
+
+### TESTE 06 - Sem data prevista
+# Esperado: HTTP 400
+POST {{baseUrl}}/vistoria/agendamentos
+Content-Type: application/json
+
+{
+    "ID_Analista": 1,
+    "Placa": "ABC1234",
+    "Horario_Previsto": "09:00:00"
+}
+
+### TESTE 07 - Sem horário previsto
+# Esperado: HTTP 400
+POST {{baseUrl}}/vistoria/agendamentos
+Content-Type: application/json
+
+{
+    "ID_Analista": 1,
+    "Placa": "ABC1234",
+    "Data_Prevista": "2026-11-20"
+}
+
+### TESTES DO ID DO ANALISTA
+### TESTE 08 - ID do analista inválido (texto)
+# Esperado: HTTP 400
+POST {{baseUrl}}/vistoria/agendamentos
+Content-Type: application/json
+
+{
+    "ID_Analista": "abc",
+    "Placa": "ABC1234",
+    "Data_Prevista": "2026-11-20",
+    "Horario_Previsto": "09:00:00"
+}
+
+### TESTE 09 - ID do analista igual a zero
+# Esperado: HTTP 400
+POST {{baseUrl}}/vistoria/agendamentos
+Content-Type: application/json
+
+{
+    "ID_Analista": 0,
+    "Placa": "ABC1234",
+    "Data_Prevista": "2026-11-20",
+    "Horario_Previsto": "09:00:00"
+}
+
+### TESTE 10 - ID de usuário inexistente
+# Esperado: HTTP 400 - Analista não encontrado.
+POST {{baseUrl}}/vistoria/agendamentos
+Content-Type: application/json
+
+{
+    "ID_Analista": 999999,
+    "Placa": "ABC1234",
+    "Data_Prevista": "2026-11-20",
+    "Horario_Previsto": "09:00:00"
+}
+
+### TESTE 11 - ID de usuário que não é analista
+# Esperado: HTTP 400 - Analista não encontrado.
+# @idOperador precisa ser de um usuário operador existente.
+POST {{baseUrl}}/vistoria/agendamentos
+Content-Type: application/json
+
+{
+    "ID_Analista": 2,
+    "Placa": "{{placa}}",
+    "Data_Prevista": "2026-11-20",
+    "Horario_Previsto": "09:00:00"
+}
+
+### TESTES DA PLACA
+### TESTE 12 - Placa vazia
+# Esperado: HTTP 400
+POST {{baseUrl}}/vistoria/agendamentos
+Content-Type: application/json
+
+{
+    "ID_Analista": 1,
+    "Placa": "   ",
+    "Data_Prevista": "2026-11-20",
+    "Horario_Previsto": "09:00:00"
+}
+
+### TESTE 13 - Placa com tipo inválido
+# Esperado: HTTP 400
+POST {{baseUrl}}/vistoria/agendamentos
+Content-Type: application/json
+
+{
+    "ID_Analista": 1,
+    "Placa": 1234567,
+    "Data_Prevista": "2026-11-20",
+    "Horario_Previsto": "09:00:00"
+}
+
+### TESTE 14 - Placa inexistente no banco
+# Esperado: HTTP 400 - Caminhão não encontrado.
+POST {{baseUrl}}/vistoria/agendamentos
+Content-Type: application/json
+
+{
+    "ID_Analista": 1,
+    "Placa": "ZZZ9999",
+    "Data_Prevista": "2026-11-20",
+    "Horario_Previsto": "09:00:00"
+}
+
+### TESTES DA DATA
+### TESTE 15 - Formato de data inválido
+# Esperado: HTTP 400
+POST {{baseUrl}}/vistoria/agendamentos
+Content-Type: application/json
+
+{
+    "ID_Analista": 1,
+    "Placa": "ABC1234",
+    "Data_Prevista": "20/11/2026",
+    "Horario_Previsto": "09:00:00"
+}
+
+### TESTE 16 - Data inexistente no calendário
+# Esperado: HTTP 400
+POST {{baseUrl}}/vistoria/agendamentos
+Content-Type: application/json
+
+{
+    "ID_Analista": 1,
+    "Placa": "ABC1234",
     "Data_Prevista": "2026-02-30",
-    "Horario_Previsto": "08:00:00"
+    "Horario_Previsto": "09:00:00"
 }
 
-### Horário inválido
-POST http://localhost:3000/vistoria/agendamentos
+### TESTE 17 - Data com tipo inválido
+# Esperado: HTTP 400
+POST {{baseUrl}}/vistoria/agendamentos
 Content-Type: application/json
 
 {
     "ID_Analista": 1,
-    "Placa_Caminhao": "ABC1D23",
-    "Data_Prevista": "2026-11-16",
-    "Horario_Previsto": "25:80:00"
+    "Placa": "ABC1234",
+    "Data_Prevista": 20261120,
+    "Horario_Previsto": "09:00:00"
+}
+
+### TESTES DO HORÁRIO
+### TESTE 18 - Horário fora do formato
+# Esperado: HTTP 400
+POST {{baseUrl}}/vistoria/agendamentos
+Content-Type: application/json
+
+{
+    "ID_Analista": 1,
+    "Placa": "ABC1234",
+    "Data_Prevista": "2026-11-20",
+    "Horario_Previsto": "9:00"
+}
+
+### TESTE 19 - Horário inexistente
+# Esperado: HTTP 400
+POST {{baseUrl}}/vistoria/agendamentos
+Content-Type: application/json
+
+{
+    "ID_Analista": 1,
+    "Placa": "ABC1234",
+    "Data_Prevista": "2026-11-20",
+    "Horario_Previsto": "25:70:00"
+}
+
+### TESTE 20 - Horário com tipo inválido
+# Esperado: HTTP 400
+POST {{baseUrl}}/vistoria/agendamentos
+Content-Type: application/json
+
+{
+    "ID_Analista": 1,
+    "Placa": "ABC1234",
+    "Data_Prevista": "2026-11-20",
+    "Horario_Previsto": 90000
+}
+
+### TESTES DA DESCRIÇÃO
+### TESTE 21 - Descrição com tipo inválido
+# Esperado: HTTP 400
+POST {{baseUrl}}/vistoria/agendamentos
+Content-Type: application/json
+
+{
+    "ID_Analista": 1,
+    "Placa": "ABC1234",
+    "Data_Prevista": "2026-11-20",
+    "Horario_Previsto": "09:00:00",
+    "Descricao": 12345
 }
