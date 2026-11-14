@@ -7,44 +7,6 @@ var VistoriaDB = require('./VistoriaDB.js')
 app.use(cors())
 app.use(express.json())
 
-app.get('/vistoria/usuarios', function (req, res) {
-    UsuarioDB.getUsuarios(function (usuarios) {
-        res.json(usuarios)
-    })
-})
-
-app.get('/vistoria/usuarios/:id', function (req, res) {
-    const id = parseInt(req.params.id)
-
-    if (isNaN(id)) {
-        res.send({
-            msg: 'ID inválido'
-        })
-        return
-    }
-
-    UsuarioDB.getUsuarioById(id, function (usuario) {
-        res.json(usuario)
-    })
-})
-
-app.get('/vistoria/usuarios/tipo/:tipo', function (req, res) {
-    const tipo = req.params.tipo
-
-    UsuarioDB.getUsuarioByTipo(tipo, function (usuarios) {
-        res.json(usuarios)
-    })
-})
-
-app.post('/vistoria/usuarios', function (req, res) {
-    const usuario = req.body
-
-    UsuarioDB.saveUsuario(usuario, function (usuario) {
-        res.json(usuario)
-    })
-})
-
-
 // Post agendar vistoria
 app.post('/vistoria/agendamentos', (req, res) => {
     const vistoria = req.body;
@@ -89,6 +51,45 @@ app.post('/vistoria/agendamentos', (req, res) => {
     });
 });
 
+
+
+
+app.get('/vistoria/usuarios', function (req, res) {
+    UsuarioDB.getUsuarios(function (usuarios) {
+        res.json(usuarios)
+    })
+})
+
+app.get('/vistoria/usuarios/:id', function (req, res) {
+    const id = parseInt(req.params.id)
+
+    if (isNaN(id)) {
+        res.send({
+            msg: 'ID inválido'
+        })
+        return
+    }
+
+    UsuarioDB.getUsuarioById(id, function (usuario) {
+        res.json(usuario)
+    })
+})
+
+app.get('/vistoria/usuarios/tipo/:tipo', function (req, res) {
+    const tipo = req.params.tipo
+
+    UsuarioDB.getUsuarioByTipo(tipo, function (usuarios) {
+        res.json(usuarios)
+    })
+})
+
+app.post('/vistoria/usuarios', function (req, res) {
+    const usuario = req.body
+
+    UsuarioDB.saveUsuario(usuario, function (usuario) {
+        res.json(usuario)
+    })
+})
 
 app.delete('/vistoria/usuarios/:id', function (req, res) {
     const id = parseInt(req.params.id)
@@ -142,17 +143,6 @@ app.patch('/vistoria/usuarios/:id', function (req, res) {
         })
     })
 })
-
-//Buscando o usuário pelo id no banco
-UsuarioDB.getUsuarioById(1, (usuarios) => {
-    console.log('Resultado da consulta:', usuarios);
-    if (usuarios.length === 0) {
-        console.log('Usuário não encontrado.');
-        return;
-    }
-    console.log('ID:', usuarios[0].idUsuario);
-    console.log('Tipo:', usuarios[0].tipoUsuario);
-});
 
 const server = app.listen(3000, () => {
     const host = server.address().address

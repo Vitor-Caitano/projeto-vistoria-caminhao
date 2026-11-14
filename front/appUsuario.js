@@ -21,7 +21,7 @@ import {
     paginate
 } from './pagination.js';
 
-import { Usuario } from '../classes/usuario.js';
+import { Usuario } from '../classes/Usuario.js';
 
 let usuarios = [];
 
@@ -84,9 +84,9 @@ window.addEventListener("DOMContentLoaded",()=>{
 
 async function carregarUsuarios(){
 
-    usuarios = await listarUsuarios();
+    let dados = await listarUsuarios();
 
-    usuarios = usuarios.map(usuario  => {
+    usuarios = dados.map(usuario  => {
         return new Usuario(
             usuario.nome,
             usuario.idUsuario,
@@ -296,8 +296,20 @@ async function pesquisarTipo(tipo){
         return;
     }
 
-    usuarios =
+    let dados =
       await buscarPorTipo(tipo);
+
+    usuarios = dados.map(usuario => {
+        return new Usuario(
+            usuario.nome,
+            usuario.idUsuario,
+            usuario.email,
+            usuario.numVistorias,
+            usuario.numOcorrencias,
+            usuario.dataAdesao,
+            usuario.tipoUsuario            
+        )
+    })
 
     paginaAtual = 1;
 
