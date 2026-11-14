@@ -9,8 +9,8 @@ class UsuarioDB
         let connection = sql.createConnection({
             user: 'root',
             host: 'localhost',
-            password: 'password',
-            database: 'vistoriacaminhao'
+            password: '',
+            database: ''
         })
 
         connection.connect()

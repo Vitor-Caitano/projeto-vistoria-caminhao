@@ -3,6 +3,7 @@ var cors = require('cors')
 var app = express()
 var UsuarioDB = require('./UsuarioDB')
 var VistoriaDB = require('./VistoriaDB.js')
+const validarVistoria = require('./Controller.js');
 
 app.use(cors())
 app.use(express.json())
@@ -44,51 +45,30 @@ app.post('/vistoria/usuarios', function (req, res) {
     })
 })
 
-
-// Post agendar vistoria
 app.post('/vistoria/agendamentos', (req, res) => {
     const vistoria = req.body;
-    // Verificar campos obrigatórios
-    if (!vistoria.ID_Analista || !vistoria.Placa_Caminhao || !vistoria.Data_Prevista || !vistoria.Horario_Previsto) {
-        res.status(400).json({ msg: 'Preencha todos os campos obrigatórios.' });
-        return;
-    }
+    // Executar validações
+    const erro = validarVistoria(vistoria);
+    if (erro)
+        return res.status(400).json({ msg: erro });
 
-    if (!Number.isInteger(vistoria.ID_Analista) || vistoria.ID_Analista <= 0) {
-        res.status(400).json({ msg: 'ID do analista inválido.' });
-        return;
-    }
+    // Cadastrar no banco de dados
+    VistoriaDB.saveVistoria(vistoria, (error, novaVistoria) => {
+        if (error) {
+            console.error(error);
+            if (error.status)
+                return res.status(error.status).json({msg: error.message});
 
-    if (typeof vistoria.Placa_Caminhao !== 'string' || vistoria.Placa_Caminhao.trim() === '') {
-        res.status(400).json({ msg: 'Placa do caminhão inválida.' });
-        return;
-    }
+            // Verificar se a placa não existe no banco
+            if (error.code === 'ER_NO_REFERENCED_ROW_2')
+                return res.status(400).json({msg: 'Caminhão não encontrado.'});
 
-    const data = vistoria.Data_Prevista;
-    if (typeof data !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(data)) {
-        res.status(400).json({ msg: 'Data prevista inválida.' });
-        return;
-    }
-
-    const [ano, mes, dia] = data.split('-').map(Number);
-    const dataValidada = new Date(Date.UTC(ano, mes - 1, dia));
-
-    if (dataValidada.getUTCFullYear() !== ano || dataValidada.getUTCMonth() !== mes - 1 || dataValidada.getUTCDate() !== dia) {
-        res.status(400).json({ msg: 'Data prevista inexistente.' });
-        return;
-    }
-
-    const horario = vistoria.Horario_Previsto;
-    if (typeof horario !== 'string' || !/^([01]\d|2[0-3]):[0-5]\d:[0-5]\d$/.test(horario)) {
-        res.status(400).json({ msg: 'Horário previsto inválido.' });
-        return;
-    }
-    // Cadastrar a vistoria
-    VistoriaDB.saveVistoria(vistoria, (novaVistoria) => {
-        res.status(201).json({ msg: 'Vistoria agendada com sucesso!', vistoria: novaVistoria });
+            return res.status(500).json({msg: 'Erro ao cadastrar a vistoria.'});
+        }
+        return res.status(201).json({msg: 'Vistoria agendada com sucesso!', vistoria: novaVistoria
+        });
     });
 });
-
 
 app.delete('/vistoria/usuarios/:id', function (req, res) {
     const id = parseInt(req.params.id)
@@ -142,17 +122,6 @@ app.patch('/vistoria/usuarios/:id', function (req, res) {
         })
     })
 })
-
-//Buscando o usuário pelo id no banco
-UsuarioDB.getUsuarioById(1, (usuarios) => {
-    console.log('Resultado da consulta:', usuarios);
-    if (usuarios.length === 0) {
-        console.log('Usuário não encontrado.');
-        return;
-    }
-    console.log('ID:', usuarios[0].idUsuario);
-    console.log('Tipo:', usuarios[0].tipoUsuario);
-});
 
 const server = app.listen(3000, () => {
     const host = server.address().address
