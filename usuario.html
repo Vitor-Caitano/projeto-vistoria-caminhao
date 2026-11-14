@@ -3,104 +3,99 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>SPA Cadastro de Pets</title>
+    <title>Gerenciamento de Usuários</title>
 
-    <link rel="stylesheet" href="style/style.css">
+    <link rel="stylesheet" href="./style/style.css">
 </head>
 
 <body>
 
-<div class="container">
+    <header>
+        <img src="https://picsum.photos/45/45" alt="">
+    </header>
 
-    <h1>Sistema de Vistoria de Caminhões</h1>
+    <div class="container">
 
-    <div id="mensagem"></div>
+        <h1>Vistoria de Caminhões</h1>
 
-    <section class="card">
+        <div id="mensagem"></div>
 
-        <h2>Dados do Usuário</h2>
+        <section class="card">
 
-        <br>
+            <h2>Cadastro de Usuário</h2>
 
-        <input type="hidden" id="id">
+            <input type="hidden" id="id">
 
-        <label>Nome</label>
-        <input type="text" id="nome">
+            <input type="text" placeholder="Nome" id="nome">
 
-        <label>Email</label>
-        <input type="text" id="especie">
+            <input type="text" placeholder="Email" id="email">
 
-        <label for="tipoUsuario">Tipo de usuário</label>
-        <br>
-        <select name="t_usuario" id="tipoUsuario">
-            <option value="1">analista</option>
-            <option value="2">operador</option>
-        </select>
+            <select name="tipo" id="tipoUsuario">
+                <option value="analista">Analista</option>
+                <option value="operador">Operador</option>
+            </select>
 
-        <div class="acoes">
+            <br>
 
-            <button id="btnSalvar">
-                Salvar
-            </button>
+            <input type="number" placeholder="Nº de Vistorias" id="nVistorias">
 
-            <button id="btnNovo">
-                Novo
-            </button>
+            <input type="number" placeholder="Nº de Ocorrências" id="nOcorrencias">
 
-        </div>
+            <div class="acoes">
 
-    </section>
+                <button id="btnSalvar">
+                    Salvar
+                </button>
 
-    <section class="card">
+                <button id="btnNovo">
+                    Novo
+                </button>
 
-        <h2>Pesquisar por Tipo</h2>
+            </div>
 
-        <input id="tipoBusca">
+        </section>
 
-        <button id="btnBuscarTipo">
-            Buscar
-        </button>
+        <section id="filtros">
 
-        <button id="btnListarTodos">
-            Todos
-        </button>
+            <button id="fTodos" class="ativado">Todos</button>
+            <button id="analistas" class="desativado">Analistas</button>
+            <button id="operadores" class="desativado">Operadores</button>
 
-    </section>
+        </section>
 
-    <section class="card">
+        <section class="card">
 
-        <h2>Pets Cadastrados</h2>
+            <h2>Caminhões Cadastrados</h2>
 
-        <table>
+            <table>
 
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th>Espécie</th>
-                    <th>Raça</th>
-                    <th>Idade</th>
-                    <th>Dono</th>
-                    <th>Tipo</th>
-                    <th>Ações</th>
-                </tr>
-            </thead>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Email</th>
+                        <th>Tipo</th>
+                        <th>Data de Adesão</th>
+                        <th>Nº Vistorias</th>
+                        <th>Nº Ocorrências</th>
+                    </tr>
+                </thead>
 
-            <tbody id="tbodyPets">
+                <tbody id="tbodyUsuarios">
 
-            </tbody>
+                </tbody>
 
-        </table>
+            </table>
 
-        <div id="pagination">
+            <div id="pagination">
 
-        </div>
+            </div>
 
-    </section>
+        </section>
 
-</div>
+    </div>
 
-<script type="module" src="front/app.js"></script>
+    <script type="module" src="./front/appUsuario.js"></script>
 
 </body>
 </html>
