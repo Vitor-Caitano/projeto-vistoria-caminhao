@@ -8,6 +8,7 @@ const validarVistoria = require('./Controller.js');
 app.use(cors())
 app.use(express.json())
 
+<<<<<<< HEAD
 app.get('/vistoria/usuarios', function (req, res) {
     UsuarioDB.getUsuarios(function (usuarios) {
         res.json(usuarios)
@@ -45,6 +46,9 @@ app.post('/vistoria/usuarios', function (req, res) {
     })
 })
 
+=======
+// Post agendar vistoria
+>>>>>>> 98e2626b7d052963fb6031dabebf958de2d9d426
 app.post('/vistoria/agendamentos', (req, res) => {
     const vistoria = req.body;
     // Executar validações
@@ -70,6 +74,49 @@ app.post('/vistoria/agendamentos', (req, res) => {
     });
 });
 
+<<<<<<< HEAD
+=======
+
+
+
+app.get('/vistoria/usuarios', function (req, res) {
+    UsuarioDB.getUsuarios(function (usuarios) {
+        res.json(usuarios)
+    })
+})
+
+app.get('/vistoria/usuarios/:id', function (req, res) {
+    const id = parseInt(req.params.id)
+
+    if (isNaN(id)) {
+        res.send({
+            msg: 'ID inválido'
+        })
+        return
+    }
+
+    UsuarioDB.getUsuarioById(id, function (usuario) {
+        res.json(usuario)
+    })
+})
+
+app.get('/vistoria/usuarios/tipo/:tipo', function (req, res) {
+    const tipo = req.params.tipo
+
+    UsuarioDB.getUsuarioByTipo(tipo, function (usuarios) {
+        res.json(usuarios)
+    })
+})
+
+app.post('/vistoria/usuarios', function (req, res) {
+    const usuario = req.body
+
+    UsuarioDB.saveUsuario(usuario, function (usuario) {
+        res.json(usuario)
+    })
+})
+
+>>>>>>> 98e2626b7d052963fb6031dabebf958de2d9d426
 app.delete('/vistoria/usuarios/:id', function (req, res) {
     const id = parseInt(req.params.id)
 
