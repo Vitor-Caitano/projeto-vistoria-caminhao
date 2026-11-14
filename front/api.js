@@ -61,3 +61,31 @@ export async function excluirUsuario(id){
 
     return await response.json();
 }
+
+
+
+
+
+export async function listarVistorias()
+{
+    const response = await fetch(`${API_URL}/vistorias`)
+    return await response.json()
+}
+
+export async function buscarPorIdVistorias(id)
+{
+    const response = await fetch(`${API_URL}/vistorias/${id}`)
+    return await response.json()
+}
+
+export async function buscarPorStatusVistorias(status)
+{
+    const response = await fetch(`${API_URL}/vistorias/concluido/${status}`)
+    return await response.json()
+}
+
+export async function buscarPorDiaVistorias(dia)
+{
+    const response = await fetch(`${API_URL}/vistorias/concluido/${dia}`)
+    return await response.json()
+}

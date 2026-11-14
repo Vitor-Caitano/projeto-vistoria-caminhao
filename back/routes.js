@@ -1,11 +1,48 @@
 var express = require('express')
 var cors = require('cors')
 var app = express()
-var UsuarioDB = require('./UsuarioDB')
-var VistoriaDB = require('./VistoriaDB.js')
+const UsuarioDB = require('./UsuarioDB.js')
+const VistoriaDB = require('./VistoriaDB.js')
 
 app.use(cors())
 app.use(express.json())
+
+app.get('/vistoria/vistorias', (req, res) => {
+    VistoriaDB.getVistorias(function(vistorias) {
+        res.json(vistorias)
+    })
+})
+
+app.get('/vistoria/vistorias/:id', (req, res) => {
+    const id = req.params.id
+    if(isNaN(id)) {
+        res.send({
+            msg: 'ID inválido'
+        })
+        return
+    }
+    VistoriaDB.getVistoriaById(id, function(vistoria) {
+        res.json(vistoria)
+    })
+})
+
+app.get('/vistoria/vistorias/concluido/:status', (req, res) => {
+    let status = 0
+    if(req.params.status == "1")
+        status = 1
+
+    VistoriaDB.getVistoriaByStatus(status, function(vistoria) {
+        res.json(vistoria)
+    })
+})
+
+app.get('/vistoria/vistorias/dia/:dia', (req, res) => {
+    const dia = req.params.dia
+
+    VistoriaDB.getVistoriaByDia(dia, function(vistorias) {
+        res.json(vistorias)
+    })
+})
 
 // Post agendar vistoria
 app.post('/vistoria/agendamentos', (req, res) => {
@@ -139,7 +176,7 @@ app.patch('/vistoria/usuarios/:id', function (req, res) {
 
     UsuarioDB.updateParcialUsuario(id, update, function (usuario) {
         res.json({
-            msg: 'produto atualizado com sucesso'
+            msg: 'usuário atualizado com sucesso'
         })
     })
 })

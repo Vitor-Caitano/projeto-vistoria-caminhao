@@ -88,13 +88,13 @@ async function carregarUsuarios(){
 
     usuarios = dados.map(usuario  => {
         return new Usuario(
-            usuario.nome,
-            usuario.idUsuario,
-            usuario.email,
-            usuario.numVistorias,
-            usuario.numOcorrencias,
-            usuario.dataAdesao,
-            usuario.tipoUsuario
+            usuario.Nome,
+            usuario.ID_usuario,
+            usuario.Email,
+            usuario.Num_Vistorias,
+            usuario.Num_Ocorrencias,
+            usuario.Data_Adesao,
+            usuario.Tipo_Usuario
         )
     })
 
@@ -209,26 +209,25 @@ window.remover = async function(id){
 
 async function salvar() {
 
-    const id =
-        document.getElementById("id").value;
+    const id = document.getElementById("id").value;
 
     const usuario = {
 
-        nome:
+        Nome:
         document.getElementById("nome").value,
 
-        email:
+        Email:
         document.getElementById("email").value,
 
-        tipoUsuario:
+        Tipo_Usuario:
         document.getElementById("tipoUsuario").value,
 
-        numVistorias:
+        Num_Vistorias:
         Number(
             document.getElementById("nVistorias").value
         ),
 
-        numOcorrencias:
+        Num_Ocorrencias:
         Number(
             document.getElementById("nOcorrencias").value
         )
@@ -249,6 +248,7 @@ async function salvar() {
     try{
 
         if(id){
+            console.log(id)
             console.log(usuario)
 
             await atualizarUsuario(id, usuario);
@@ -260,7 +260,7 @@ async function salvar() {
         }
         else{
 
-            usuario.dataAdesao = `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()}`
+            usuario.Data_Adesao = `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()}`
 
             console.log(usuario)
 
@@ -301,13 +301,13 @@ async function pesquisarTipo(tipo){
 
     usuarios = dados.map(usuario => {
         return new Usuario(
-            usuario.nome,
-            usuario.idUsuario,
-            usuario.email,
-            usuario.numVistorias,
-            usuario.numOcorrencias,
-            usuario.dataAdesao,
-            usuario.tipoUsuario            
+            usuario.Nome,
+            usuario.ID_usuario,
+            usuario.Email,
+            usuario.Num_Vistorias,
+            usuario.Num_Ocorrencias,
+            usuario.Data_Adesao,
+            usuario.Tipo_Usuario        
         )
     })
 
