@@ -15,7 +15,7 @@ Content-Type: application/json
 
 {
     "ID_Analista": 1,
-    "Placa": "{{placa}}",
+    "Placa": "ABC1234",
     "Data_Prevista": "2026-11-20",
     "Horario_Previsto": "09:00:00",
     "Descricao": "Vistoria de rotina"

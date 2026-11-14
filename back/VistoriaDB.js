@@ -5,8 +5,8 @@ class VistoriaDB {
         let connection = sql.createConnection({
             user: 'root',
             host: 'localhost',
-            password: '',
-            database: ''
+            password: 'ghsasql1234',
+            database: 'vistoriacaminhao'
         });
 
         let consultaAnalista = `SELECT ID_Usuario FROM Usuario WHERE ID_Usuario = ? AND Tipo_Usuario = 'analista'`;
