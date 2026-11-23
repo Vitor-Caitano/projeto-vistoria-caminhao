@@ -3,7 +3,9 @@ var cors = require('cors')
 var app = express()
 var UsuarioDB = require('./UsuarioDB')
 var VistoriaDB = require('./VistoriaDB.js')
-const validarVistoria = require('./Controller.js');
+
+const VistoriaController = require('./Controller.js')
+const controller = new VistoriaController();
 
 app.use(cors())
 app.use(express.json())
@@ -47,19 +49,19 @@ app.post('/vistoria/usuarios', function (req, res) {
 
 app.post('/vistoria/agendamentos', (req, res) => {
     const vistoria = req.body;
-    // Executar validações
-    const erro = validarVistoria(vistoria);
+   
+    const erro = controller.validarVistoria(vistoria);
     if (erro)
         return res.status(400).json({ msg: erro });
 
-    // Cadastrar no banco de dados
+    
     VistoriaDB.saveVistoria(vistoria, (error, novaVistoria) => {
         if (error) {
             console.error(error);
             if (error.status)
                 return res.status(error.status).json({msg: error.message});
 
-            // Verificar se a placa não existe no banco
+            
             if (error.code === 'ER_NO_REFERENCED_ROW_2')
                 return res.status(400).json({msg: 'Caminhão não encontrado.'});
 
