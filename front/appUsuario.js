@@ -96,13 +96,13 @@ async function carregarPets() {
 
     usuarios = dados.map(usuario  => {
         return new Usuario(
-            usuario.nome,
-            usuario.idUsuario,
-            usuario.email,
-            usuario.numVistorias,
-            usuario.numOcorrencias,
-            usuario.dataAdesao,
-            usuario.tipoUsuario
+            usuario.Nome,
+            usuario.ID_usuario,
+            usuario.Email,
+            usuario.Num_Vistorias,
+            usuario.Num_Ocorrencias,
+            usuario.Data_Adesao,
+            usuario.Tipo_Usuario
         )
     })
 
@@ -217,29 +217,28 @@ window.remover = async function (id) {
 
 async function salvar() {
 
-    const id =
-        document.getElementById("id").value;
+    const id = document.getElementById("id").value;
 
     const usuario = {
 
-        nome:
-            document.getElementById("nome").value,
+        Nome:
+        document.getElementById("nome").value,
 
-        email:
-            document.getElementById("email").value,
+        Email:
+        document.getElementById("email").value,
 
-        tipoUsuario:
-            document.getElementById("tipoUsuario").value,
+        Tipo_Usuario:
+        document.getElementById("tipoUsuario").value,
 
-        numVistorias:
-            Number(
-                document.getElementById("nVistorias").value
-            ),
+        Num_Vistorias:
+        Number(
+            document.getElementById("nVistorias").value
+        ),
 
-        numOcorrencias:
-            Number(
-                document.getElementById("nOcorrencias").value
-            )
+        Num_Ocorrencias:
+        Number(
+            document.getElementById("nOcorrencias").value
+        )
     };
 
     const erros = validarUsuario(usuario);
@@ -256,8 +255,9 @@ async function salvar() {
 
     try {
 
-        if (id) {
-            console.log(pet)
+        if(id){
+            console.log(id)
+            console.log(usuario)
 
             await atualizarUsuario(id, usuario);
 
@@ -268,7 +268,7 @@ async function salvar() {
         }
         else {
 
-            pet.dataAdesao = `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`
+            usuario.Data_Adesao = `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()}`
 
             console.log(usuario)
 
@@ -309,13 +309,13 @@ async function pesquisarTipo(tipo) {
 
     usuarios = dados.map(usuario => {
         return new Usuario(
-            usuario.nome,
-            usuario.idUsuario,
-            usuario.email,
-            usuario.numVistorias,
-            usuario.numOcorrencias,
-            usuario.dataAdesao,
-            usuario.tipoUsuario            
+            usuario.Nome,
+            usuario.ID_usuario,
+            usuario.Email,
+            usuario.Num_Vistorias,
+            usuario.Num_Ocorrencias,
+            usuario.Data_Adesao,
+            usuario.Tipo_Usuario        
         )
     })
 
