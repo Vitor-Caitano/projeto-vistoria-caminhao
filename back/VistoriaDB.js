@@ -1,13 +1,9 @@
-var sql = require('mysql2');
+var sql = require('mysql2')
+const Connect = require('./Connect')
 
 class VistoriaDB {
     static saveVistoria(vistoria, callback) {
-        let connection = sql.createConnection({
-            user: 'root',
-            host: 'localhost',
-            password: 'ghsasql1234',
-            database: 'vistoriacaminhao'
-        });
+        let connection = Connect.connect()
 
         let consultaAnalista = `SELECT ID_Usuario FROM Usuario WHERE ID_Usuario = ? AND Tipo_Usuario = 'analista'`;
 
@@ -60,6 +56,63 @@ class VistoriaDB {
             }
         );
     }
+
+    static getVistorias(callback)
+    {
+        let connection = Connect.connect()
+        let sql = "select * from vistoria v join Usuario u on v.ID_Operador = u.ID_Usuario"
+        let query = connection.query(sql, function(error, results, fields) {
+            if(error)
+                throw error
+
+            callback(results)
+        })
+        console.log(query.sql)
+        connection.end()
+    }
+
+    static getVistoriaById(id, callback)
+    {
+        let connection = Connect.connect()
+        let sql = "select * from vistoria v join Usuario u on v.ID_Operador = u.ID_Usuario where Cod_Vistoria = ?"
+        let query = connection.query(sql, id, function(error, results, fields) {
+            if(error)
+                throw error
+
+            callback(results)
+        })
+        console.log(query.sql)
+        connection.end()
+    }
+
+    static getVistoriaByStatus(status, callback)
+    {
+        let connection = Connect.connect()
+        let sql = "select * from vistoria v join Usuario u on v.ID_Operador = u.ID_Usuario where Status = ?"
+        let query = connection.query(sql, status, function(error, results, fields) {
+            if(error)
+                throw error
+
+            callback(results)
+        })
+        console.log(query.sql)
+        connection.end()
+    }
+
+    static getVistoriaByDia(data, callback)
+    {
+        let connection = Connect.connect()
+        let sql = "select * from vistoria v join Usuario u on v.ID_Operador = u.ID_Usuario where Data_Prevista = ?"
+        let query = connection.query(sql, data, function(error, results, fields) {
+            if(error)
+                throw error
+
+            callback(results)
+        })
+        console.log(query.sql)
+        connection.end()
+    }
+
 }
 
 module.exports = VistoriaDB;
