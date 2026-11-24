@@ -47,6 +47,16 @@ app.post('/vistoria/usuarios', function (req, res) {
     })
 })
 
+app.get('/vistoria/caminhoes', (req, res) => {
+    VistoriaDB.getCaminhoes((error, caminhoes) => {
+        if (error) {
+            console.error(error);
+            return res.status(500).json({msg: 'Erro ao consultar caminhões.'});
+        }
+        return res.json(caminhoes);
+    });
+});
+
 app.post('/vistoria/agendamentos', (req, res) => {
     const vistoria = req.body;
    

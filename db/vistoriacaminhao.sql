@@ -64,6 +64,7 @@ CREATE TABLE IF NOT EXISTS Ocorrencia (
 CREATE TABLE IF NOT EXISTS Item_Vistoria (
     ID_Item INT AUTO_INCREMENT PRIMARY KEY,
     COD_Vistoria INT NOT NULL,
+    Nome_Item VARCHAR(100) NOT NULL,
     Observacao TEXT,
     Situacao VARCHAR(50),
 

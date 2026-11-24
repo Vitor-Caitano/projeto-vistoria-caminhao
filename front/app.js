@@ -4,7 +4,9 @@ import {
     buscarPorTipo,
     salvarPet,
     atualizarPet,
-    excluirPet
+    excluirPet,
+    listarCaminhoes,
+    agendarVistoria
 } from './api.js';
 
 import {
@@ -20,6 +22,7 @@ import {
 import {
     paginate
 } from './pagination.js';
+//import { describe } from 'node:test';
 
 let pets = [];
 
@@ -27,18 +30,23 @@ let paginaAtual = 1;
 
 const itensPorPagina = 5;
 
-window.addEventListener("DOMContentLoaded",()=>{
+window.addEventListener("DOMContentLoaded", () => {
+
+    if (document.getElementById("formVistoria")) {
+        inicializarVistoria();
+        return;
+    }
 
     carregarPets();
 
     document
-    .getElementById("btnSalvar")
-    .addEventListener("click", salvar);
+        .getElementById("btnSalvar")
+        .addEventListener("click", salvar);
 
     document
-    .getElementById("btnNovo")
-    .addEventListener("click",
-        limparFormulario);
+        .getElementById("btnNovo")
+        .addEventListener("click",
+            limparFormulario);
 
 
     let botoesFiltro = [
@@ -49,38 +57,38 @@ window.addEventListener("DOMContentLoaded",()=>{
 
 
     document
-    .getElementById('fTodos')
-    .addEventListener('click', () => {
-         pesquisarTipo("todos")
+        .getElementById('fTodos')
+        .addEventListener('click', () => {
+            pesquisarTipo("todos")
 
-         botoesFiltro.forEach(botao => botao.classList.remove('ativado'))
+            botoesFiltro.forEach(botao => botao.classList.remove('ativado'))
 
-         document.getElementById('fTodos').classList.add('ativado')
-    })
-
-    document
-    .getElementById('analistas')
-    .addEventListener('click', () => {
-         pesquisarTipo("analista")
-
-         botoesFiltro.forEach(botao => botao.classList.remove('ativado'))
-
-         document.getElementById('analistas').classList.add('ativado')
-    })
+            document.getElementById('fTodos').classList.add('ativado')
+        })
 
     document
-    .getElementById('operadores')
-    .addEventListener('click', () => {
-         pesquisarTipo("operador")
+        .getElementById('analistas')
+        .addEventListener('click', () => {
+            pesquisarTipo("analista")
 
-         botoesFiltro.forEach(botao => botao.classList.remove('ativado'))
+            botoesFiltro.forEach(botao => botao.classList.remove('ativado'))
 
-         document.getElementById('operadores').classList.add('ativado')
-    })
+            document.getElementById('analistas').classList.add('ativado')
+        })
+
+    document
+        .getElementById('operadores')
+        .addEventListener('click', () => {
+            pesquisarTipo("operador")
+
+            botoesFiltro.forEach(botao => botao.classList.remove('ativado'))
+
+            document.getElementById('operadores').classList.add('ativado')
+        })
 
 });
 
-async function carregarPets(){
+async function carregarPets() {
 
     pets = await listarPets();
 
@@ -89,12 +97,12 @@ async function carregarPets(){
     renderizarTabela();
 }
 
-function renderizarTabela(){
+function renderizarTabela() {
 
     const tbody =
         document.getElementById("tbodyPets");
 
-    tbody.innerHTML="";
+    tbody.innerHTML = "";
 
     const pagina =
         paginate(
@@ -103,9 +111,9 @@ function renderizarTabela(){
             itensPorPagina
         );
 
-    pagina.forEach(usuario=>{
+    pagina.forEach(usuario => {
 
-        tbody.innerHTML+=`
+        tbody.innerHTML += `
         <tr>
             <td>${usuario.idUsuario}</td>
             <td>${usuario.nome}</td>
@@ -135,17 +143,17 @@ function renderizarTabela(){
     renderizarPaginas();
 }
 
-function renderizarPaginas(){
+function renderizarPaginas() {
 
     const qtd =
         Math.ceil(
-          pets.length /
-          itensPorPagina
+            pets.length /
+            itensPorPagina
         );
 
-    let html='';
+    let html = '';
 
-    for(let i=1;i<=qtd;i++){
+    for (let i = 1; i <= qtd; i++) {
 
         html += `
         <button
@@ -156,18 +164,18 @@ function renderizarPaginas(){
     }
 
     document
-    .getElementById("pagination")
-    .innerHTML = html;
+        .getElementById("pagination")
+        .innerHTML = html;
 }
 
-window.irPagina = function(pagina){
+window.irPagina = function (pagina) {
 
     paginaAtual = pagina;
 
     renderizarTabela();
 }
 
-window.editar = async function(id){
+window.editar = async function (id) {
 
     const pet =
         await buscarPorId(id);
@@ -177,9 +185,9 @@ window.editar = async function(id){
     preencherFormulario(pet[0]);
 }
 
-window.remover = async function(id){
+window.remover = async function (id) {
 
-    if(!confirm("Deseja excluir?"))
+    if (!confirm("Deseja excluir?"))
         return;
 
     await excluirPet(id);
@@ -201,28 +209,28 @@ async function salvar() {
     const pet = {
 
         nome:
-        document.getElementById("nome").value,
+            document.getElementById("nome").value,
 
         email:
-        document.getElementById("email").value,
+            document.getElementById("email").value,
 
         tipoUsuario:
-        document.getElementById("tipoUsuario").value,
+            document.getElementById("tipoUsuario").value,
 
         numVistorias:
-        Number(
-            document.getElementById("nVistorias").value
-        ),
+            Number(
+                document.getElementById("nVistorias").value
+            ),
 
         numOcorrencias:
-        Number(
-            document.getElementById("nOcorrencias").value
-        )
+            Number(
+                document.getElementById("nOcorrencias").value
+            )
     };
 
     const erros = validarPet(pet);
 
-    if(erros.length > 0){
+    if (erros.length > 0) {
 
         mostrarMensagem(
             erros.join(" | "),
@@ -232,9 +240,9 @@ async function salvar() {
         return;
     }
 
-    try{
+    try {
 
-        if(id){
+        if (id) {
             console.log(pet)
 
             await atualizarPet(id, pet);
@@ -244,9 +252,9 @@ async function salvar() {
                 "sucesso"
             );
         }
-        else{
+        else {
 
-            pet.dataAdesao = `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()}`
+            pet.dataAdesao = `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`
 
             console.log(pet)
 
@@ -262,7 +270,7 @@ async function salvar() {
 
         carregarPets();
 
-    }catch(erro){
+    } catch (erro) {
 
         mostrarMensagem(
             erro.message,
@@ -271,11 +279,11 @@ async function salvar() {
     }
 }
 
-async function pesquisarTipo(tipo){
+async function pesquisarTipo(tipo) {
 
     console.log(`Filtrando por: ${tipo}`)
 
-    if(tipo==="todos"){
+    if (tipo === "todos") {
 
         carregarPets();
 
@@ -283,10 +291,69 @@ async function pesquisarTipo(tipo){
     }
 
     pets =
-      await buscarPorTipo(tipo);
+        await buscarPorTipo(tipo);
 
     paginaAtual = 1;
 
     renderizarTabela();
 }
 
+
+async function inicializarVistoria() {
+    const form = document.getElementById("formVistoria");
+    try {
+        const [caminhoes, analistas] = await Promise.all([
+            listarCaminhoes(),
+            buscarPorTipo("analista")
+        ]);
+        carregarCaminhoes(caminhoes);
+        carregarAnalistas(analistas);
+
+    } catch (error) {
+        console.error("Erro ao carregar os dados:", error);
+        alert("Erro ao carregar os dados!");
+    }
+
+    form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const horario = document.getElementById("horarioPrevisto").value;
+        const vistoria = {
+            ID_Analista: Number(document.getElementById("analista").value),
+            Placa: document.getElementById("placaCaminhao").value,
+            Data_Prevista: document.getElementById("dataPrevista").value,
+            Horario_Previsto: horario + ":00",
+            Descricao: document.getElementById("observacao").value || null
+        };
+
+        try {
+            const resultado = await agendarVistoria(vistoria);
+            alert(resultado.msg);
+            form.reset();
+        } catch (error) {
+            console.error("Erro ao agendar vistoria:", error);
+            alert("Falha ao realizar agendamento");
+        }
+    });
+}
+
+function carregarCaminhoes(caminhoes) {
+    const select = document.getElementById("placaCaminhao");
+    select.innerHTML = `<option value="">Selecione o caminhão</option>`;
+    caminhoes.forEach(caminhao => {
+        const option = document.createElement("option");
+        option.value = caminhao.Placa;
+        option.textContent = `${caminhao.Placa} - ${caminhao.Marca} - ${caminhao.Modelo}`;
+        select.appendChild(option);
+    });
+}
+
+function carregarAnalistas(analistas) {
+    const select = document.getElementById("analista");
+    select.innerHTML = `<option value="">Selecione o analista</option>`;
+    analistas.forEach(analista => {
+        const option = document.createElement("option");
+        option.value = analista.idUsuario;
+        option.textContent = analista.nome;
+        select.appendChild(option);
+    });
+}

@@ -61,3 +61,33 @@ export async function excluirPet(id){
 
     return await response.json();
 }
+
+
+//Caminhões
+export async function listarCaminhoes() {
+    const response = await fetch(`${API_URL}/caminhoes`);
+
+    if (!response.ok) {
+        throw new Error("Erro ao carregar caminhões.");
+    }
+
+    return await response.json();
+}
+
+export async function agendarVistoria(vistoria) {
+
+    const response = await fetch(`${API_URL}/agendamentos`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(vistoria)
+        });
+
+    const resultado = await response.json();
+
+    if (!response.ok) 
+        throw new Error(resultado.msg || "Erro ao agendar vistoria.");
+
+    return resultado;
+}
