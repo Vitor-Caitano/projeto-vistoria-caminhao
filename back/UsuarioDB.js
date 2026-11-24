@@ -24,6 +24,7 @@ class UsuarioDB
     {
         let connection = UsuarioDB.connect()
         let sql = 'select * from usuario'
+    
         let query = connection.query(sql, function(error, results, fields) {
             if(error)
                 throw error
@@ -38,7 +39,7 @@ class UsuarioDB
     static getUsuarioById(id, callback)
     {
         let connection = UsuarioDB.connect()
-        let sql = 'select * from usuario where idUsuario = ?'
+        let sql = 'select * from Usuario where idUsuario = ?'
         let query = connection.query(sql, id, function(error, results, fields) {
             if(error)
                 throw error
