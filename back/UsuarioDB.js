@@ -23,7 +23,8 @@ class UsuarioDB
     static getUsuarios(callback)
     {
         let connection = UsuarioDB.connect()
-        let sql = 'select * from usuario'
+        let sql = 'select * from Usuario'
+    
         let query = connection.query(sql, function(error, results, fields) {
             if(error)
                 throw error
@@ -38,7 +39,7 @@ class UsuarioDB
     static getUsuarioById(id, callback)
     {
         let connection = UsuarioDB.connect()
-        let sql = 'select * from usuario where idUsuario = ?'
+        let sql = 'select * from Usuario where ID_usuario = ?'
         let query = connection.query(sql, id, function(error, results, fields) {
             if(error)
                 throw error
@@ -54,7 +55,7 @@ class UsuarioDB
     static getUsuarioByTipo(tipo, callback)
     {
         let connection = UsuarioDB.connect()
-        let sql = 'select * from usuario where tipoUsuario = ?'
+        let sql = 'select * from Usuario where Tipo_Usuario = ?'
         let query = connection.query(sql, tipo, function(error, results, fields) {
             if(error)
                 throw error
@@ -69,7 +70,7 @@ class UsuarioDB
     static saveUsuario(usuario, callback)
     {
         let connection = UsuarioDB.connect()
-        let sql = 'insert into usuario set ?'
+        let sql = 'insert into Usuario set ?'
         let query = connection.query(sql, usuario, function(error, results, fields) {
             if(error)
                 throw error
@@ -85,7 +86,7 @@ class UsuarioDB
     static deleteUsuario(id, callback)
     {
         let connection = UsuarioDB.connect()
-        let sql = 'delete from usuario where idUsuario = ?'
+        let sql = 'delete from Usuario where ID_Usuario = ?'
         let query = connection.query(sql, id, function(error, results, fields) {
             if(error)
                 throw error
@@ -100,7 +101,7 @@ class UsuarioDB
     static updateUsuario(id, usuario, callback)
     {
         let connection = UsuarioDB.connect()
-        let sql = 'update usuario set ? where idUsuario = ?'
+        let sql = 'update Usuario set ? where ID_Usuario = ?'
         let query = connection.query(sql, [usuario, id], function(error, results, fields) {
             if(error)
                 throw error
@@ -115,7 +116,7 @@ class UsuarioDB
     static updateParcialUsuario(id, usuario, callback)
     {
         let connection = UsuarioDB.connect()
-        let sql = 'update usuario set ? where idUsuario = ?'
+        let sql = 'update Usuario set ? where ID_Usuario = ?'
         let query = connection.query(sql, [usuario, id], function(error, results, fields) {
             if(error)
                 throw error
