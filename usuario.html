@@ -103,16 +103,12 @@
 
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Agendar Vistoria</title>
-
     <link rel="stylesheet" href="./style/style.css">
 </head>
-
 <body>
 
     <header>
@@ -120,43 +116,29 @@
     </header>
 
     <div class="container">
-
         <h1>Vistoria de Caminhões</h1>
-
         <div id="mensagem"></div>
-
         <form id="formVistoria">
-
             <section class="card">
-
                 <h2>Agendar Vistoria</h2>
-
                 <input type="hidden" id="id">
-
                 <label for="placaCaminhao">Caminhão</label>
-
                 <select id="placaCaminhao" required>
                     <option value="">Selecione o caminhão</option>
                 </select>
-
-                <label for="analista">Analista responsável</label>
-
-                <select id="analista" required>
-                    <option value="">Selecione o analista</option>
+                <label for="operador">Operador responsável</label>
+                <select id="operador" required>
+                    <option value="">Operador o analista</option>
                 </select>
-
                 <label for="dataPrevista">Data prevista</label>
                 <input type="date" id="dataPrevista" required>
                 <label for="horarioPrevisto">Horário previsto</label>
                 <input type="time" id="horarioPrevisto" required>
-
             </section>
 
             <section class="card">
                 <h2>Itens para Vistoria</h2>
-
                 <p>Selecione os componentes que deverão ser inspecionados.</p>
-
                 <div class="checklist">
                     <label>
                         <input type="checkbox" name="itensVistoria" value="Pneus e rodas"> Pneus e rodas
@@ -179,9 +161,7 @@
                     </label>
 
                     <label>
-                        <input type="checkbox" name="itensVistoria"
-                            value="Suspensão">
-                        Suspensão
+                        <input type="checkbox" name="itensVistoria" value="Suspensão">Suspensão
                     </label>
 
                     <label>
