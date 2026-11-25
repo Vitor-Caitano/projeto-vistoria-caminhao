@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciamento de Vistorias</title>
+
+    <link rel="stylesheet" href="./style/style.css">
+</head>
+<body>
+    
+    <header>
+        <img src="https://picsum.photos/45/45" alt="">
+    </header>
+
+    <main>
+
+        <h1>VISTORIAS</h1>
+
+        <p>Criar nova vistoria</p>
+
+        <div class="container">
+
+            <div id="filtros">
+
+                <button id="fTodos" class="atividado">Todos</button>
+                <button id="concluida" class="desativado">Concluídas</button>
+                <button id="inconcluida" class="desativado">Inconcluídas</button>
+                <label for="ordem">Ordenar por: </label>
+                <select name="ordem" id="ordem">
+                    <option value="1">Mais recente</option>
+                    <option value="2">Mais antigo</option>
+                </select>
+
+            </div>
+
+            <section class="card">
+
+                <table>
+
+                    <tbody id="tbodyVistorias">
+
+                    </tbody>
+
+                </table>
+
+                <div id="pagination">
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+
+    <script type="module" src="./front/appVistoria.js"></script>
+
+</body>
+</html>

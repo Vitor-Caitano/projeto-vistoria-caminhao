@@ -1,13 +1,16 @@
+let temporizadorMensagem;
+
 export function mostrarMensagem(texto,tipo){
 
     const div =
         document.getElementById("mensagem");
 
+    clearTimeout(temporizadorMensagem);
     div.className = tipo;
-    div.innerText = texto;
+    div.textContent = texto;
 
-    setTimeout(()=>{
-        div.innerHTML="";
+    temporizadorMensagem = setTimeout(()=>{
+        div.textContent="";
         div.className="";
     },3000);
 }
@@ -24,10 +27,10 @@ export function limparFormulario(){
 
 export function preencherFormulario(usuario){
 
-    document.getElementById("id").value = usuario.idUsuario;
-    document.getElementById("nome").value = usuario.nome;
-    document.getElementById("email").value = usuario.email;
-    document.getElementById("tipoUsuario").value = usuario.tipoUsuario;
-    document.getElementById("nVistorias").value = Number(usuario.numVistorias);
-    document.getElementById("nOcorrencias").value = Number(usuario.numOcorrencias);
+    document.getElementById("id").value = usuario.ID_usuario;
+    document.getElementById("nome").value = usuario.Nome;
+    document.getElementById("email").value = usuario.Email;
+    document.getElementById("tipoUsuario").value = usuario.Tipo_Usuario;
+    document.getElementById("nVistorias").value = usuario.Num_Vistorias ?? "";
+    document.getElementById("nOcorrencias").value = usuario.Num_Ocorrencias ?? "";
 }

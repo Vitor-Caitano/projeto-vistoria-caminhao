@@ -10,6 +10,90 @@ const controller = new VistoriaController();
 app.use(cors())
 app.use(express.json())
 
+app.get('/vistoria/vistorias', (req, res) => {
+    VistoriaDB.getVistorias(function(vistorias) {
+        res.json(vistorias)
+    })
+})
+
+app.get('/vistoria/vistorias/:id', (req, res) => {
+    const id = req.params.id
+    if(isNaN(id)) {
+        res.send({
+            msg: 'ID inválido'
+        })
+        return
+    }
+    VistoriaDB.getVistoriaById(id, function(vistoria) {
+        res.json(vistoria)
+    })
+})
+
+app.get('/vistoria/vistorias/concluido/:status', (req, res) => {
+    let status = 0
+    if(req.params.status == "1")
+        status = 1
+
+    VistoriaDB.getVistoriaByStatus(status, function(vistoria) {
+        res.json(vistoria)
+    })
+})
+
+app.get('/vistoria/vistorias/dia/:dia', (req, res) => {
+    const dia = req.params.dia
+
+    VistoriaDB.getVistoriaByDia(dia, function(vistorias) {
+        res.json(vistorias)
+    })
+})
+
+// Post agendar vistoria
+app.post('/vistoria/agendamentos', (req, res) => {
+    const vistoria = req.body;
+    // Verificar campos obrigatórios
+    if (!vistoria.ID_Analista || !vistoria.Placa_Caminhao || !vistoria.Data_Prevista || !vistoria.Horario_Previsto) {
+        res.status(400).json({ msg: 'Preencha todos os campos obrigatórios.' });
+        return;
+    }
+
+    if (!Number.isInteger(vistoria.ID_Analista) || vistoria.ID_Analista <= 0) {
+        res.status(400).json({ msg: 'ID do analista inválido.' });
+        return;
+    }
+
+    if (typeof vistoria.Placa_Caminhao !== 'string' || vistoria.Placa_Caminhao.trim() === '') {
+        res.status(400).json({ msg: 'Placa do caminhão inválida.' });
+        return;
+    }
+
+    const data = vistoria.Data_Prevista;
+    if (typeof data !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(data)) {
+        res.status(400).json({ msg: 'Data prevista inválida.' });
+        return;
+    }
+
+    const [ano, mes, dia] = data.split('-').map(Number);
+    const dataValidada = new Date(Date.UTC(ano, mes - 1, dia));
+
+    if (dataValidada.getUTCFullYear() !== ano || dataValidada.getUTCMonth() !== mes - 1 || dataValidada.getUTCDate() !== dia) {
+        res.status(400).json({ msg: 'Data prevista inexistente.' });
+        return;
+    }
+
+    const horario = vistoria.Horario_Previsto;
+    if (typeof horario !== 'string' || !/^([01]\d|2[0-3]):[0-5]\d:[0-5]\d$/.test(horario)) {
+        res.status(400).json({ msg: 'Horário previsto inválido.' });
+        return;
+    }
+    // Cadastrar a vistoria
+    VistoriaDB.saveVistoria(vistoria, (novaVistoria) => {
+        res.status(201).json({ msg: 'Vistoria agendada com sucesso!', vistoria: novaVistoria });
+    });
+});
+
+
+
+
 app.get('/vistoria/usuarios', function (req, res) {
     UsuarioDB.getUsuarios(function (usuarios) {
         res.json(usuarios)
@@ -129,7 +213,7 @@ app.patch('/vistoria/usuarios/:id', function (req, res) {
 
     UsuarioDB.updateParcialUsuario(id, update, function (usuario) {
         res.json({
-            msg: 'produto atualizado com sucesso'
+            msg: 'usuário atualizado com sucesso'
         })
     })
 })
