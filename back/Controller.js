@@ -1,13 +1,16 @@
 class VistoriaController{
     validarVistoria(vistoria){
+    
         
-    if (!vistoria.ID_Analista || !vistoria.Placa || !vistoria.Data_Prevista || !vistoria.Horario_Previsto)
+    if (!vistoria.ID_Analista || !vistoria.ID_Operador || !vistoria.Placa || !vistoria.Data_Prevista || !vistoria.Horario_Previsto)
         return 'Preencha todos os campos obrigatórios.';
 
    
     if (!Number.isInteger(vistoria.ID_Analista) || vistoria.ID_Analista <= 0)
         return 'ID do analista inválido.';
 
+    if(!Number.isInteger(vistoria.ID_Operador) || vistoria.ID_Operador <= 0)
+        return 'ID do analista inválido'
    
     if (typeof vistoria.Placa !== 'string' || vistoria.Placa.trim() === '')
         return 'Placa do caminhão inválida.';
@@ -36,6 +39,11 @@ class VistoriaController{
     
     if (vistoria.Descricao != null && typeof vistoria.Descricao !== 'string')
         return 'Descrição inválida.';
+
+    if(!Array.isArray(vistoria.Itens))
+        return 'Lista de itens inválida'
+    if(vistoria.Itens.some(item => typeof item !== 'string' || item.trim() === ''))
+        return 'Itens inválidos na lista'
 
     return null;
     }

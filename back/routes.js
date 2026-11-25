@@ -71,9 +71,8 @@ app.post('/vistoria/agendamentos', (req, res) => {
             if (error.status)
                 return res.status(error.status).json({msg: error.message});
 
-            
             if (error.code === 'ER_NO_REFERENCED_ROW_2')
-                return res.status(400).json({msg: 'Caminhão não encontrado.'});
+                return res.status(400).json({msg: 'Analista, Operador ou caminhão não foram encontrados'});
 
             return res.status(500).json({msg: 'Erro ao cadastrar a vistoria.'});
         }
