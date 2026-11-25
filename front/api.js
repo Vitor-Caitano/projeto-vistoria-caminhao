@@ -63,7 +63,7 @@ export async function excluirUsuario(id){
 }
 
 
-<<<<<<< HEAD
+
 //Caminhões
 export async function listarCaminhoes() {
     const response = await fetch(`${API_URL}/caminhoes`);
@@ -91,8 +91,7 @@ export async function agendarVistoria(vistoria) {
         throw new Error(resultado.msg || "Erro ao agendar vistoria.");
 
     return resultado;
-=======
-
+}
 
 
 export async function listarVistorias()
@@ -117,5 +116,5 @@ export async function buscarPorDiaVistorias(dia)
 {
     const response = await fetch(`${API_URL}/vistorias/concluido/${dia}`)
     return await response.json()
->>>>>>> 3066426061dc1bd33c873f6da6637bad0773fecf
+
 }
