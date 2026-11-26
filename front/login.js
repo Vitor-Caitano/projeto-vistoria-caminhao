@@ -1,3 +1,5 @@
+import { buscarPorEmail } from "./api.js";
+
 const form = document.getElementById("loginForm");
 const password = document.getElementById("password");
 const loginStatus = document.getElementById("loginStatus");
@@ -24,7 +26,7 @@ keypad.addEventListener("click", (event) => {
     password.focus();
 });
 
-form.addEventListener("submit", (event) => {
+form.addEventListener("submit", async function (event) {
     event.preventDefault();
 
     if (!password.value) {
@@ -32,13 +34,28 @@ form.addEventListener("submit", (event) => {
         return;
     }
 
-    loginStatus.textContent = "A autenticação ainda não está conectada ao servidor.";
-});
+    const email = document.getElementById("email").value;
 
-document.getElementById("forgotPassword").addEventListener("click", () => {
-    loginStatus.textContent = "Para redefinir sua senha, solicite ajuda ao administrador.";
+    let usuario = await buscarPorEmail(email);
+
+    usuario = usuario[0]
+
+    if(!usuario)
+    {
+        loginStatus.textContent = "E-mail não encontrado.";
+        return;
+    }
+
+    if(password.value == usuario.Senha)
+    {
+        loginStatus.textContent = "Entrando...";
+        localStorage.setItem("usuario", JSON.stringify(usuario));
+        window.location.href = "vistoria.html";
+    }
+    else
+        loginStatus.textContent = "Senha incorreta!";
 });
 
 document.getElementById("register").addEventListener("click", () => {
-    loginStatus.textContent = "Para solicitar acesso, entre em contato com o administrador.";
+    window.location.href = "cadastro.html"
 });

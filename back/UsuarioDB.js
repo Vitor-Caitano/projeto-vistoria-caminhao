@@ -37,6 +37,22 @@ class UsuarioDB
         console.log(query.sql)
     }
 
+    //USUÁRIO COM EMAIL ESPECÍFICO
+    static getUsuarioByEmail(email, callback)
+    {
+        let connection = Connect.connect()
+        let sql = 'select * from Usuario where email = ?'
+        let query = connection.query(sql, email, function(error, results, fields) {
+            if(error)
+                throw error
+
+            callback(results)
+            //passei o .end para logo dps que a consulta retorna os dados
+            connection.end()
+        })
+        console.log(query.sql)        
+    }
+
     //LISTA DE USUÁRIOS POR TIPO
     static getUsuarioByTipo(tipo, callback)
     {

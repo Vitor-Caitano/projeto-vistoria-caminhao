@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#d0d0d0">
+    <title>Cadastro | Vistoria de Caminhões</title>
+    <link rel="stylesheet" href="style/style.css">
+</head>
+
+<body class="login-page">
+    <main class="login-stage">
+        <section class="login-card" aria-label="Cadastro em Vistoria de Caminhões">
+            <header class="login-header">
+                <span class="login-brand-name">Vistoria de Caminhões</span>
+            </header>
+
+            <div class="login-content">
+                <section class="login-form-panel" aria-labelledby="login-title">
+                    <div class="login-form-inner">
+                        <h1 id="login-title">CADASTRO</h1>
+
+                        <form id="cadastroForm">
+                            <div class="login-field">
+                                <label for="email">Email</label>
+                                <input
+                                    id="email"
+                                    name="email"
+                                    type="email"
+                                    autocomplete="username"
+                                    required>
+                            </div>
+
+                            <div class="login-field">
+                                <label for="nome">Nome</label>
+                                <input
+                                    id="nome"
+                                    name="nome"
+                                    type="text"
+                                    autocomplete="username"
+                                    required>
+                            </div>
+
+                            <div class="login-field login-password-group">
+                                <label for="password">Senha</label>
+                                <input
+                                    id="senha"
+                                    name="senha"
+                                    type="password"
+                                    autocomplete="current-password"
+                                >
+                            </div>
+
+                            <div class="login-field login-password-group">
+                                <label for="passwordRepetir">Senha</label>
+                                <input
+                                    id="senhaRepetir"
+                                    name="senhaRepetir"
+                                    type="password"
+                                    autocomplete="current-password"
+                                >
+                            </div>
+
+                            <label for="tipoUsuario">Qual o tipo do usuário cadastrado?</label>
+                            <select name="tipoUsuario" id="tipoUsuario">
+                                <option value="1" selected>Analista</option>
+                                <option value="2">Operador</option>
+                            </select>
+
+                            <button class="login-submit" type="submit">Fazer cadastro</button>
+                            <p class="login-register">
+                                Já tem conta?
+                                <button class="login-text-button" id="voltarLogin" type="button">Faça login</button>
+                            </p>
+                            <p class="login-feedback" id="cadastroStatus" role="status" aria-live="polite"></p>
+                        </form>
+
+                    </div>
+                </section>
+
+                <div class="login-image">
+                    <img src="assets/vistoria-login.png" alt="Profissional realizando a vistoria de um caminhão">
+                </div>
+            </div>
+
+            <footer class="login-footer" aria-hidden="true"></footer>
+        </section>
+    </main>
+    <script type="module" src="front/cadastro.js"></script>
+</body>
+
+</html>

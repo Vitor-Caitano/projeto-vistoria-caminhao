@@ -181,6 +181,8 @@ header {
     background-color: black;
     box-shadow: 0 2px 5px rgba(0,0,0,.2);
     margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
 }
 
 

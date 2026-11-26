@@ -135,6 +135,13 @@ app.get('/vistoria/usuarios/tipo/:tipo', function (req, res) {
     })
 })
 
+app.get('/vistoria/usuarios/email/:email', function (req, res) {
+    const email = req.params.email
+
+    UsuarioDB.getUsuarioByEmail(email, function (usuario) {
+        res.json(usuario)
+    })
+})
 
 //post USUARIOS
 app.post('/vistoria/usuarios', function (req, res) {

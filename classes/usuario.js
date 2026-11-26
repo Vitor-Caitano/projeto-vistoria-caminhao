@@ -81,14 +81,14 @@ export class Usuario
             this.#numOcorrencias = value
     }
 
-    constructor(nome, id, email, nVistorias, nOcorrencias, dataAdesao, tipoUsuario)
+    constructor(nome, email, dataAdesao, tipoUsuario, senha)
     {
         this.#nome = nome
-        this.#idUsuario = id
-        this.#numVistorias = nVistorias
-        this.#numOcorrencias = nOcorrencias
+        this.#numVistorias = 0
+        this.#numOcorrencias = 0
         this.#dataAdesao = dataAdesao
         this.#tipoUsuario = tipoUsuario
         this.#email = email
+        this.#senha = senha
     }
 }

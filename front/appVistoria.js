@@ -18,6 +18,10 @@ let paginaAtual = 1;
 const itensPorPagina = 5;
 
 window.addEventListener('DOMContentLoaded', () => {
+    const usuario = localStorage.getItem("usuario")
+    if(usuario == null)
+        window.location.href = "login.html"
+
     carregarVistorias()
 
     let botoesFiltro = [
@@ -54,6 +58,13 @@ window.addEventListener('DOMContentLoaded', () => {
          botoesFiltro.forEach(botao => botao.classList.remove('ativado'))
 
          document.getElementById('inconcluida').classList.add('ativado')
+    })
+
+    document
+    .getElementById('deslogar')
+    .addEventListener('click', () => {
+        localStorage.removeItem("usuario");
+        window.location.href = "login.html"
     })
 })
 

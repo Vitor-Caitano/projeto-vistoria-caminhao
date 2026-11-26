@@ -1,5 +1,7 @@
 const API_URL = "http://localhost:3000/vistoria";
 
+
+// métodos de requisição dos usuários
 export async function listarUsuarios() {
 
     const response =
@@ -16,6 +18,11 @@ export async function buscarPorId(id) {
     return await response.json();
 }
 
+export async function buscarPorEmail(email) {
+    const response = await fetch(`${API_URL}/usuarios/email/${email}`)
+    return await response.json()
+}
+
 export async function buscarPorTipo(tipo) {
 
     const response =
@@ -24,7 +31,7 @@ export async function buscarPorTipo(tipo) {
     return await response.json();
 }
 
-export async function salvarUsuario(pet) {
+export async function salvarUsuario(usuario) {
 
     const response =
         await fetch(`${API_URL}/usuarios`,{
@@ -32,7 +39,15 @@ export async function salvarUsuario(pet) {
             headers:{
                 "Content-Type":"application/json"
             },
-            body:JSON.stringify(pet)
+            body:JSON.stringify({
+                Nome: usuario.getNome(),
+                Email: usuario.getEmail(),
+                Data_Adesao: usuario.getAdesao(),
+                Tipo_Usuario: usuario.getTipo(),
+                Num_Vistorias: usuario.getNumVistorias(),
+                Num_Ocorrencias: usuario.getNumOcorrencias(),
+                Senha: usuario.getSenha()
+            })
         });
 
     return await response.json();
@@ -64,7 +79,7 @@ export async function excluirUsuario(id){
 
 
 
-//Caminhões
+//métodos de requisição dos caminhões
 export async function listarCaminhoes() {
     const response = await fetch(`${API_URL}/caminhoes`);
 
@@ -75,6 +90,7 @@ export async function listarCaminhoes() {
     return await response.json();
 }
 
+//métodos de requsição das vistorias
 export async function agendarVistoria(vistoria) {
 
     const response = await fetch(`${API_URL}/agendamentos`, {
