@@ -353,3 +353,329 @@ textarea {
     padding: 15px;
 }
 
+.login-page {
+    min-height: 100vh;
+    background: #f2f2f2;
+    color: #222;
+}
+
+.login-stage,
+.login-card {
+    width: 100%;
+    min-height: 100vh;
+}
+
+.login-stage {
+    position: relative;
+}
+
+.login-card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: #fff;
+}
+
+.login-header {
+    display: flex;
+    min-height: 74px;
+    flex: 0 0 74px;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin: 0;
+    padding: 0;
+    border-bottom: 1px solid #999;
+    background: #d0d0d0;
+    box-shadow: none;
+}
+
+.login-logo {
+    display: grid;
+    width: 40px;
+    height: 40px;
+    place-items: center;
+    border: 1px solid #aaa;
+    background: #f4f4f4;
+    color: #555;
+    font-size: 0.7rem;
+}
+
+.login-brand-name {
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.login-content {
+    display: grid;
+    min-height: calc(100vh - 152px);
+    flex: 1;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+
+.login-form-panel {
+    position: relative;
+    display: flex;
+    min-width: 0;
+    align-items: center;
+    justify-content: center;
+    padding: 48px clamp(32px, 4vw, 64px) 48px clamp(170px, 17vw, 230px);
+}
+
+.login-form-inner {
+    width: min(100%, 430px);
+}
+
+.login-form-panel h1 {
+    margin: 0 0 42px;
+    font-size: clamp(1.6rem, 2.2vw, 2rem);
+    text-align: center;
+}
+
+.login-field {
+    margin-bottom: 34px;
+}
+
+.login-field > label {
+    display: block;
+    margin: 0 0 8px;
+    font-size: 1rem;
+    text-align: center;
+}
+
+.login-field > input {
+    display: block;
+    width: 100%;
+    height: 44px;
+    margin: 0;
+    padding: 8px 14px;
+    border: 1px solid #c8c8c8;
+    border-radius: 24px;
+    background: #fff;
+    font-size: 1rem;
+}
+
+.login-password-group {
+    margin-bottom: 12px;
+}
+
+.login-password-links {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 6px;
+}
+
+.login-text-button {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: #444;
+    font-size: 0.8rem;
+    text-decoration: underline;
+}
+
+.login-text-button:hover {
+    background: transparent;
+    color: #111;
+}
+
+.login-options {
+    margin-top: 16px;
+}
+
+.login-remember {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 0.88rem;
+}
+
+.login-remember input {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    accent-color: #555;
+}
+
+.login-submit {
+    display: block;
+    width: 190px;
+    margin: 30px auto 0;
+    padding: 11px 16px;
+    border: 1px solid #aaa;
+    border-radius: 3px;
+    background: #f4f4f4;
+    color: #222;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.login-submit:hover {
+    background: #e5e5e5;
+}
+
+.login-register {
+    margin: 8px 0 0;
+    font-size: 0.8rem;
+    text-align: center;
+}
+
+.login-register .login-text-button {
+    font-size: inherit;
+}
+
+.login-feedback {
+    min-height: 1.4em;
+    margin: 8px 0 0;
+    color: #7a3d00;
+    font-size: 0.82rem;
+    line-height: 1.4;
+    text-align: center;
+}
+
+.virtual-keypad {
+    position: absolute;
+    top: 50%;
+    left: clamp(24px, 4vw, 60px);
+    width: 138px;
+    padding: 8px;
+    transform: translateY(-50%);
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: #fafafa;
+}
+
+.virtual-keypad__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+}
+
+.virtual-keypad button {
+    min-width: 0;
+    height: 38px;
+    margin: 0;
+    padding: 0;
+    border: 1px solid #bbb;
+    border-radius: 2px;
+    background: #fff;
+    color: #222;
+    font-size: 1.1rem;
+    line-height: 1;
+}
+
+.virtual-keypad button:hover {
+    background: #e8e8e8;
+}
+
+.virtual-keypad button:focus-visible,
+.login-submit:focus-visible,
+.login-text-button:focus-visible {
+    outline: 2px solid #555;
+    outline-offset: 2px;
+}
+
+.virtual-keypad p {
+    margin: 8px -12px 0;
+    color: #555;
+    font-size: 0.68rem;
+    line-height: 1.3;
+    text-align: center;
+}
+
+.login-image {
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+    background: #d8d8d8;
+}
+
+.login-image img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.login-footer {
+    height: 78px;
+    flex: 0 0 78px;
+    border-top: 1px solid #aaa;
+    background: #d0d0d0;
+}
+
+@media (max-width: 900px) {
+    .login-content {
+        grid-template-columns: 1fr;
+    }
+
+    .login-form-panel {
+        min-height: 620px;
+        padding: 52px 24px 24px;
+    }
+
+    .login-form-inner {
+        width: min(100%, 430px);
+    }
+
+    .virtual-keypad {
+        position: static;
+        width: min(100% - 48px, 320px);
+        margin: 0 auto 32px;
+        transform: none;
+    }
+
+    .virtual-keypad__grid {
+        grid-template-columns: repeat(6, 1fr);
+    }
+
+    .virtual-keypad p {
+        margin: 8px 0 0;
+    }
+
+    .login-image {
+        height: min(65vh, 620px);
+        min-height: 360px;
+    }
+
+    .login-footer {
+        height: 56px;
+        flex-basis: 56px;
+    }
+}
+
+@media (max-width: 600px) {
+    .login-header {
+        min-height: 64px;
+        flex-basis: 64px;
+    }
+
+    .login-brand-name {
+        font-size: 1.05rem;
+    }
+
+    .login-form-panel {
+        min-height: 590px;
+        padding: 38px 24px 20px;
+    }
+
+    .login-field {
+        margin-bottom: 30px;
+    }
+
+    .login-password-group {
+        margin-bottom: 12px;
+    }
+
+    .login-submit {
+        margin-top: 24px;
+    }
+
+    .login-image {
+        height: 45vh;
+        min-height: 280px;
+    }
+}
+

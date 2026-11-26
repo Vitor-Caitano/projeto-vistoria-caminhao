@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#d0d0d0">
+    <title>Login | Vistoria de Caminhões</title>
+    <link rel="stylesheet" href="../style/style.css">
+</head>
+
+<body class="login-page">
+    <main class="login-stage">
+        <section class="login-card" aria-label="Acesso à Vistoria de Caminhões">
+            <header class="login-header">
+                <span class="login-brand-name">Vistoria de Caminhões</span>
+            </header>
+
+            <div class="login-content">
+                <section class="login-form-panel" aria-labelledby="login-title">
+                    <div class="login-form-inner">
+                        <h1 id="login-title">LOGIN</h1>
+
+                        <form id="loginForm">
+                            <div class="login-field">
+                                <label for="email">Email</label>
+                                <input
+                                    id="email"
+                                    name="email"
+                                    type="email"
+                                    autocomplete="username"
+                                    required>
+                            </div>
+
+                            <div class="login-field login-password-group">
+                                <label for="password">Senha</label>
+                                <input
+                                    id="password"
+                                    name="password"
+                                    type="password"
+                                    autocomplete="current-password"
+                                    aria-describedby="virtualKeypadHint"
+                                    readonly
+                                    required>
+                                <span class="login-password-links">
+                                    <span></span>
+                                    <button class="login-text-button" id="forgotPassword" type="button">Esqueci minha senha</button>
+                                </span>
+                            </div>
+
+                            <div class="login-options">
+                                <label class="login-remember" for="rememberAccess">
+                                    <input id="rememberAccess" name="rememberAccess" type="checkbox">
+                                    Lembrar acesso
+                                </label>
+                            </div>
+
+                            <button class="login-submit" type="submit">ENTRAR</button>
+                            <p class="login-register">
+                                Não tem conta?
+                                <button class="login-text-button" id="register" type="button">Faça cadastro</button>
+                            </p>
+                            <p class="login-feedback" id="loginStatus" role="status" aria-live="polite"></p>
+                        </form>
+
+                    </div>
+                    <aside class="virtual-keypad" aria-label="Teclado virtual para digitar a senha">
+                        <div class="virtual-keypad__grid">
+                            <button type="button" data-digit="1" aria-label="Digitar 1">1</button>
+                            <button type="button" data-digit="2" aria-label="Digitar 2">2</button>
+                            <button type="button" data-digit="3" aria-label="Digitar 3">3</button>
+                            <button type="button" data-digit="4" aria-label="Digitar 4">4</button>
+                            <button type="button" data-digit="5" aria-label="Digitar 5">5</button>
+                            <button type="button" data-digit="6" aria-label="Digitar 6">6</button>
+                            <button type="button" data-digit="7" aria-label="Digitar 7">7</button>
+                            <button type="button" data-digit="8" aria-label="Digitar 8">8</button>
+                            <button type="button" data-digit="9" aria-label="Digitar 9">9</button>
+                            <button type="button" data-action="clear" aria-label="Limpar senha">C</button>
+                            <button type="button" data-digit="0" aria-label="Digitar 0">0</button>
+                            <button type="button" data-action="backspace" aria-label="Apagar último dígito">⌫</button>
+                        </div>
+                        <p id="virtualKeypadHint">Senha será digitada num teclado virtual</p>
+                    </aside>
+                </section>
+
+                <div class="login-image">
+                    <img src="../assets/vistoria-login.png" alt="Profissional realizando a vistoria de um caminhão">
+                </div>
+            </div>
+
+            <footer class="login-footer" aria-hidden="true"></footer>
+        </section>
+    </main>
+    <script type="module" src="../front/login.js"></script>
+</body>
+
+</html>
