@@ -3,12 +3,7 @@ const Connect = require('./Connect')
 
 class VistoriaDB {
     static getCaminhoes(callback) {
-        let connection = sql.createConnection({
-            user: 'root',
-            host: 'localhost',
-            password: 'ghsasql1234',
-            database: 'vistoriacaminhao'
-        });
+        let connection = Connect.connect();
         let comando = `SELECT Placa, Modelo, Marca FROM Caminhao ORDER BY Placa`;
         connection.query(comando, function (error, resultados) {
             connection.end();

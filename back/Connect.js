@@ -9,7 +9,7 @@ class Connect
         let connection = sql.createConnection({
             user: 'root',
             host: 'localhost',
-            password: 'password',
+            password: 'ghsasql1234',
             database: 'vistoriacaminhao'
         })
 
