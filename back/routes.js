@@ -1,5 +1,6 @@
 var express = require('express')
 var cors = require('cors')
+const path = require('path')
 var app = express()
 var UsuarioDB = require('./UsuarioDB')
 var VistoriaDB = require('./VistoriaDB.js')
@@ -10,6 +11,17 @@ const controller = new VistoriaController();
 app.use(cors())
 app.use(express.json())
 
+
+//Retorna o index qnd não há mais nada na url
+app.use(express.static(path.join(__dirname, '..')));
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '../vistoria.html')); 
+});
+
+
+
+//get VISTORIAS
 app.get('/vistoria/vistorias', (req, res) => {
     VistoriaDB.getVistorias(function(vistorias) {
         res.json(vistorias)
@@ -47,6 +59,7 @@ app.get('/vistoria/vistorias/dia/:dia', (req, res) => {
     })
 })
 
+//get USUARIOS
 app.get('/vistoria/usuarios', function (req, res) {
     UsuarioDB.getUsuarios(function (usuarios) {
         res.json(usuarios)
@@ -76,6 +89,8 @@ app.get('/vistoria/usuarios/tipo/:tipo', function (req, res) {
     })
 })
 
+
+//post USUARIOS
 app.post('/vistoria/usuarios', function (req, res) {
     const usuario = req.body
 
@@ -84,6 +99,65 @@ app.post('/vistoria/usuarios', function (req, res) {
     })
 })
 
+//put USUARIOS
+app.put('/vistoria/usuarios/:id', function (req, res) {
+    const update = req.body
+    const id = parseInt(req.params.id)
+
+    if (isNaN(id)) {
+        res.send({
+            msg: 'ID inválido'
+        })
+        return
+    }
+
+    UsuarioDB.updateUsuario(id, update, function (usuario) {
+        res.json({
+            msg: 'produto atualizado com sucesso'
+        })
+    })
+})
+
+//patch USUARIOS
+app.patch('/vistoria/usuarios/:id', function (req, res) {
+    const update = req.body
+    const id = parseInt(req.params.id)
+
+    if (isNaN(id)) {
+        res.send({
+            msg: 'ID inválido'
+        })
+        return
+    }
+
+    UsuarioDB.updateParcialUsuario(id, update, function (usuario) {
+        res.json({
+            msg: 'usuário atualizado com sucesso'
+        })
+    })
+})
+
+//delete USUARIOS
+app.delete('/vistoria/usuarios/:id', function (req, res) {
+    const id = parseInt(req.params.id)
+
+    if (isNaN(id)) {
+        res.send({
+            msg: 'ID inválido'
+        })
+        return
+    }
+
+    UsuarioDB.deleteUsuario(id, function (affectedRows) {
+        res.json({
+            msg: 'cliente deletado'
+        })
+    })
+})
+
+
+
+//get CAMINHÕES
 app.get('/vistoria/caminhoes', (req, res) => {
     VistoriaDB.getCaminhoes((error, caminhoes) => {
         if (error) {
@@ -93,6 +167,8 @@ app.get('/vistoria/caminhoes', (req, res) => {
         return res.json(caminhoes);
     });
 });
+
+
 
 app.post('/vistoria/agendamentos', (req, res) => {
     const vistoria = req.body;
@@ -117,58 +193,7 @@ app.post('/vistoria/agendamentos', (req, res) => {
     });
 });
 
-app.delete('/vistoria/usuarios/:id', function (req, res) {
-    const id = parseInt(req.params.id)
 
-    if (isNaN(id)) {
-        res.send({
-            msg: 'ID inválido'
-        })
-        return
-    }
-
-    UsuarioDB.deleteUsuario(id, function (affectedRows) {
-        res.json({
-            msg: 'cliente deletado'
-        })
-    })
-})
-
-app.put('/vistoria/usuarios/:id', function (req, res) {
-    const update = req.body
-    const id = parseInt(req.params.id)
-
-    if (isNaN(id)) {
-        res.send({
-            msg: 'ID inválido'
-        })
-        return
-    }
-
-    UsuarioDB.updateUsuario(id, update, function (usuario) {
-        res.json({
-            msg: 'produto atualizado com sucesso'
-        })
-    })
-})
-
-app.patch('/vistoria/usuarios/:id', function (req, res) {
-    const update = req.body
-    const id = parseInt(req.params.id)
-
-    if (isNaN(id)) {
-        res.send({
-            msg: 'ID inválido'
-        })
-        return
-    }
-
-    UsuarioDB.updateParcialUsuario(id, update, function (usuario) {
-        res.json({
-            msg: 'usuário atualizado com sucesso'
-        })
-    })
-})
 
 const server = app.listen(3000, () => {
     const host = server.address().address

@@ -102,7 +102,7 @@ function renderizarVistorias(){
 
         tbody.innerHTML+=`
         <tr>
-            <td>Concluído</td>
+            <td>${vistoria.getStatus() ? "Concluído" : "Inconcluído"}</td>
             <td>${vistoria.getCod()}</td>
             <td>Vistoria do operador ${operadores[i]} <br> ${vistoria.getAbertura().split('T')[0]}</td>
             <td>

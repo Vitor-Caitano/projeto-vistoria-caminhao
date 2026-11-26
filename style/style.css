@@ -177,8 +177,7 @@ body {
 }
 
 header {
-    padding: 6px;
-    padding-left: 40px;
+    padding: 6px 100px;
     background-color: black;
     box-shadow: 0 2px 5px rgba(0,0,0,.2);
     margin-bottom: 20px;
@@ -194,6 +193,7 @@ header {
 h1 {
     margin-bottom: 20px;
     font-size: 2.6em;
+    font-weight: bold;
 }
 
 h2 {
@@ -206,21 +206,55 @@ p {
     color: #555;
 }
 
-
-.card {
-    background: white;
-    padding: 20px 25px;
-    border-radius: 4px;
-    box-shadow: 0 2px 5px rgba(0,0,0,.2);
-    margin: 10px;
+button{
+    padding:10px 15px;
+    margin: 10px 0;
+    border:none;
+    cursor:pointer;
+    background:#cc7e00;
+    color:white;
+    border-radius:5px;
 }
 
+button:hover{
+    background:#efa123;
+}
+
+.ativado {
+    background-color: #cc7e00 !important;
+    border: 1px solid black !important;
+    color: white !important;
+}
+
+#filtros button {
+    border-radius: 0;
+    margin: 0;
+    background-color: #f6faf5;
+    color: black;
+    border: solid 1px black;
+}
+
+#ordem {
+    margin-bottom: 30px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
 
 label {
     display: block;
     margin-top: 12px;
     margin-bottom: 5px;
     font-weight: bold;
+}
+
+.card {
+    background: #eeeeee;
+    padding: 20px 25px;
+    border-radius: 4px;
+    border: black solid 1px;
 }
 
 input,
@@ -286,22 +320,6 @@ select {
 textarea {
     resize: vertical;
     min-height: 100px;
-}
-
-
-button {
-    padding: 10px 15px;
-    margin: 10px 0;
-    border: none;
-    cursor: pointer;
-    background: #cc7e00;
-    color: white;
-    border-radius: 5px;
-    font-size: 1em;
-}
-
-button:hover {
-    background: #efa123;
 }
 
 .acoes {
