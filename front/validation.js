@@ -1,14 +1,14 @@
-export function validarPet(usuario){
+export function validarUsuario(usuario){
 
     let erros = [];
 
-    if(!usuario.nome)
+    if(!usuario.Nome)
         erros.push("Informe o nome");
 
-    if(!usuario.email)
+    if(!usuario.Email)
         erros.push("Informe o email");
 
-    if(!usuario.tipoUsuario)
+    if(!usuario.Tipo_Usuario)
         erros.push("Informe o tipo de usuário");
 
     return erros;

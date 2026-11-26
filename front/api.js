@@ -1,6 +1,6 @@
 const API_URL = "http://localhost:3000/vistoria";
 
-export async function listarPets() {
+export async function listarUsuarios() {
 
     const response =
         await fetch(`${API_URL}/usuarios`);
@@ -24,7 +24,7 @@ export async function buscarPorTipo(tipo) {
     return await response.json();
 }
 
-export async function salvarPet(pet) {
+export async function salvarUsuario(pet) {
 
     const response =
         await fetch(`${API_URL}/usuarios`,{
@@ -38,7 +38,7 @@ export async function salvarPet(pet) {
     return await response.json();
 }
 
-export async function atualizarPet(id, pet){
+export async function atualizarUsuario(id, pet){
 
     const response =
         await fetch(`${API_URL}/usuarios/${id}`,{
@@ -52,7 +52,7 @@ export async function atualizarPet(id, pet){
     return await response.json();
 }
 
-export async function excluirPet(id){
+export async function excluirUsuario(id){
 
     const response =
         await fetch(`${API_URL}/usuarios/${id}`,{
