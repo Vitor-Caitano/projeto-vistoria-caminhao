@@ -3,8 +3,10 @@ var cors = require('cors')
 var app = express()
 var UsuarioDB = require('./UsuarioDB')
 var VistoriaDB = require('./VistoriaDB.js')
+const CaminhaoController = require('./CaminhaoController');
 
 const VistoriaController = require('./Controller.js')
+
 const controller = new VistoriaController();
 
 app.use(cors())
@@ -46,53 +48,6 @@ app.get('/vistoria/vistorias/dia/:dia', (req, res) => {
         res.json(vistorias)
     })
 })
-
-// Post agendar vistoria
-app.post('/vistoria/agendamentos', (req, res) => {
-    const vistoria = req.body;
-    // Verificar campos obrigatórios
-    if (!vistoria.ID_Analista || !vistoria.Placa_Caminhao || !vistoria.Data_Prevista || !vistoria.Horario_Previsto) {
-        res.status(400).json({ msg: 'Preencha todos os campos obrigatórios.' });
-        return;
-    }
-
-    if (!Number.isInteger(vistoria.ID_Analista) || vistoria.ID_Analista <= 0) {
-        res.status(400).json({ msg: 'ID do analista inválido.' });
-        return;
-    }
-
-    if (typeof vistoria.Placa_Caminhao !== 'string' || vistoria.Placa_Caminhao.trim() === '') {
-        res.status(400).json({ msg: 'Placa do caminhão inválida.' });
-        return;
-    }
-
-    const data = vistoria.Data_Prevista;
-    if (typeof data !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(data)) {
-        res.status(400).json({ msg: 'Data prevista inválida.' });
-        return;
-    }
-
-    const [ano, mes, dia] = data.split('-').map(Number);
-    const dataValidada = new Date(Date.UTC(ano, mes - 1, dia));
-
-    if (dataValidada.getUTCFullYear() !== ano || dataValidada.getUTCMonth() !== mes - 1 || dataValidada.getUTCDate() !== dia) {
-        res.status(400).json({ msg: 'Data prevista inexistente.' });
-        return;
-    }
-
-    const horario = vistoria.Horario_Previsto;
-    if (typeof horario !== 'string' || !/^([01]\d|2[0-3]):[0-5]\d:[0-5]\d$/.test(horario)) {
-        res.status(400).json({ msg: 'Horário previsto inválido.' });
-        return;
-    }
-    // Cadastrar a vistoria
-    VistoriaDB.saveVistoria(vistoria, (novaVistoria) => {
-        res.status(201).json({ msg: 'Vistoria agendada com sucesso!', vistoria: novaVistoria });
-    });
-});
-
-
-
 
 app.get('/vistoria/usuarios', function (req, res) {
     UsuarioDB.getUsuarios(function (usuarios) {
@@ -143,12 +98,11 @@ app.get('/vistoria/caminhoes', (req, res) => {
 
 app.post('/vistoria/agendamentos', (req, res) => {
     const vistoria = req.body;
-   
+       
     const erro = controller.validarVistoria(vistoria);
     if (erro)
         return res.status(400).json({ msg: erro });
 
-    
     VistoriaDB.saveVistoria(vistoria, (error, novaVistoria) => {
         if (error) {
             console.error(error);
@@ -164,6 +118,25 @@ app.post('/vistoria/agendamentos', (req, res) => {
         });
     });
 });
+
+app.post('/vistoria/caminhoes', (req, res) => {
+    const dados = req.body
+    CaminhaoController.cadastrarCaminhao(dados, (error, resultado) => {
+        if(error){
+            console.error(error)
+            if(error.status)
+                return res.status(error.status).json({msg: error.message})
+
+             if(error.code === 'ER_DUP_ENTRY')
+            return res.status(400).json({msg: 'Já existe um caminhão cadastrado com essa placa.'})
+
+            return res.status(500).json({msg: 'Erro ao cadastrar caminhao'})
+        }
+       
+        return res.status(201).json({msg: 'Caminhão cadastrado', caminhao: resultado})
+
+    })
+})
 
 app.delete('/vistoria/usuarios/:id', function (req, res) {
     const id = parseInt(req.params.id)

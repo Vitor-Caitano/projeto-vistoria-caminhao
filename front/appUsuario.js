@@ -2,9 +2,9 @@ import {
     listarUsuarios,
     buscarPorId,
     buscarPorTipo,
-    salvarPet,
-    atualizarPet,
-    excluirPet,
+    //salvarPet,
+    //atualizarPet,
+    //excluirPet,
     listarCaminhoes,
     agendarVistoria
 } from './api.js';
@@ -25,6 +25,7 @@ import {
 //import { describe } from 'node:test';
 
 import { Usuario } from '../classes/Usuario.js';
+import './popupCaminhao.js';
 
 let usuarios = [];
 
@@ -350,10 +351,10 @@ async function inicializarVistoria() {
             Placa: document.getElementById("placaCaminhao").value,
             Data_Prevista: document.getElementById("dataPrevista").value,
             Horario_Previsto: horario + ":00",
-            Descricao: document.getElementById("observacao").value || null,
+            Descricao: document.getElementById("observacao").value.trim() || null,
             Itens: itensSelecionados
         };
-
+        
         try {
             const resultado = await agendarVistoria(vistoria);
             alert(resultado.msg);
