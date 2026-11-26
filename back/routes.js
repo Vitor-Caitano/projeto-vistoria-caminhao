@@ -30,6 +30,16 @@ app.get('/vistoria/vistorias', (req, res) => {
     })
 })
 
+app.get('/vistoria/ocorrencias', (req, res) => {
+    VistoriaDB.getOcorrencias((error, ocorrencias) => {
+        if (error) {
+            console.error(error);
+            return res.status(500).json({ msg: 'Erro ao consultar ocorrências.' });
+        }
+        return res.json(ocorrencias);
+    });
+});
+
 app.get('/vistoria/vistorias/:id', (req, res) => {
     const id = req.params.id
     if(isNaN(id)) {

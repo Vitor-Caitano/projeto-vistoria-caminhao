@@ -91,6 +91,22 @@ class VistoriaDB {
         connection.end()
     }
 
+    static getOcorrencias(callback) {
+        const connection = Connect.connect();
+        const comando = `
+            SELECT o.Cod_Ocorrencia, o.Cod_Vistoria, o.Titulo, o.Descricao,
+                   o.Data_Ocorrencia, o.Gravidade, v.Placa
+            FROM Ocorrencia o
+            INNER JOIN Vistoria v ON v.Cod_Vistoria = o.Cod_Vistoria
+            ORDER BY o.Data_Ocorrencia DESC, o.Cod_Ocorrencia DESC
+        `;
+
+        connection.query(comando, (error, ocorrencias) => {
+            connection.end();
+            callback(error, ocorrencias);
+        });
+    }
+
     static getVistoriaById(id, callback)
     {
         let connection = Connect.connect()

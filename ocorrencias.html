@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciamento de Ocorrências</title>
+    <link rel="stylesheet" href="./style/style.css">
+</head>
+<body>
+    <header>
+        <img src="https://picsum.photos/45/45" alt="">
+    </header>
+
+    <main class="container">
+        <h1>OCORRÊNCIAS</h1>
+        <p><a href="vistoria.html">Voltar para vistorias</a></p>
+
+        <section id="filtrosOcorrencias" aria-label="Filtros de ocorrências">
+            <div>
+                <label for="buscaOcorrencias">Pesquisar</label>
+                <input id="buscaOcorrencias" type="search" placeholder="Título, descrição, vistoria ou placa">
+            </div>
+            <div>
+                <label for="filtroGravidade">Filtrar por gravidade</label>
+                <select id="filtroGravidade">
+                    <option value="">Todas as gravidades</option>
+                </select>
+            </div>
+            <div>
+                <label for="ordemOcorrencias">Ordenar por data</label>
+                <select id="ordemOcorrencias">
+                    <option value="desc">Mais recentes</option>
+                    <option value="asc">Mais antigas</option>
+                </select>
+            </div>
+        </section>
+
+        <p id="mensagemOcorrencias" role="status" aria-live="polite"></p>
+
+        <section class="card">
+            <div class="tabelaOcorrencias">
+                <table>
+                    <thead>
+                        <tr>
+                            <th scope="col">Código</th>
+                            <th scope="col">Título</th>
+                            <th scope="col">Descrição</th>
+                            <th scope="col">Gravidade</th>
+                            <th scope="col">Data</th>
+                            <th scope="col">Vistoria</th>
+                            <th scope="col">Placa</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbodyOcorrencias"></tbody>
+                </table>
+            </div>
+            <div id="paginationOcorrencias" class="pagination" aria-label="Paginação"></div>
+        </section>
+    </main>
+
+    <script type="module" src="./front/appOcorrencia.js"></script>
+</body>
+</html>
