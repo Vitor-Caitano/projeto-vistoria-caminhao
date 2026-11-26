@@ -1,7 +1,7 @@
 import {
     listarVistorias,
-    buscarPorIdVistorias,
-    buscarPorDiaVistorias,
+    //buscarPorIdVistorias,
+    //buscarPorDiaVistorias,
     buscarPorStatusVistorias,
 } from './api.js';
 

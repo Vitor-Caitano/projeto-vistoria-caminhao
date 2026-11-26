@@ -2,9 +2,9 @@ import {
     listarUsuarios,
     buscarPorId,
     buscarPorTipo,
-    salvarPet,
-    atualizarPet,
-    excluirPet,
+    //salvarPet,
+    //atualizarPet,
+    //excluirPet,
     listarCaminhoes,
     agendarVistoria
 } from './api.js';
@@ -25,6 +25,7 @@ import {
 //import { describe } from 'node:test';
 
 import { Usuario } from '../classes/Usuario.js';
+import './popupCaminhao.js';
 
 let usuarios = [];
 
@@ -328,12 +329,12 @@ async function pesquisarTipo(tipo) {
 async function inicializarVistoria() {
     const form = document.getElementById("formVistoria");
     try {
-        const [caminhoes, analistas] = await Promise.all([
+        const [caminhoes, operadores] = await Promise.all([
             listarCaminhoes(),
-            buscarPorTipo("analista")
+            buscarPorTipo("operador")
         ]);
         carregarCaminhoes(caminhoes);
-        carregarAnalistas(analistas);
+        carregarOperadores(operadores);
 
     } catch (error) {
         console.error("Erro ao carregar os dados:", error);
@@ -343,15 +344,19 @@ async function inicializarVistoria() {
     form.addEventListener("submit", async (event) => {
         event.preventDefault();
         const horario = document.getElementById("horarioPrevisto").value;
+        const itensSelecionados = Array.from(document.querySelectorAll('input[name="itensVistoria"]:checked')).map(item => item.value)
         const vistoria = {
-            ID_Analista: Number(document.getElementById("analista").value),
+            ID_Analista: 5, //Hardcodado pq ainda não temos login para verificar o id do usuario
+            ID_Operador: Number(document.getElementById("operador").value),
             Placa: document.getElementById("placaCaminhao").value,
             Data_Prevista: document.getElementById("dataPrevista").value,
             Horario_Previsto: horario + ":00",
-            Descricao: document.getElementById("observacao").value || null
+            Descricao: document.getElementById("observacao").value.trim() || null,
+            Itens: itensSelecionados
         };
-
+        
         try {
+            console.log("Dados enviados:", vistoria);
             const resultado = await agendarVistoria(vistoria);
             alert(resultado.msg);
             form.reset();
@@ -373,13 +378,13 @@ function carregarCaminhoes(caminhoes) {
     });
 }
 
-function carregarAnalistas(analistas) {
-    const select = document.getElementById("analista");
-    select.innerHTML = `<option value="">Selecione o analista</option>`;
-    analistas.forEach(analista => {
+function carregarOperadores(operadores) {
+    const select = document.getElementById("operador");
+    select.innerHTML = `<option value="">Selecione o operador</option>`;
+    operadores.forEach(operador => {
         const option = document.createElement("option");
-        option.value = analista.idUsuario;
-        option.textContent = analista.nome;
+        option.value = operador.idUsuario;
+        option.textContent = operador.nome;
         select.appendChild(option);
     });
 }
