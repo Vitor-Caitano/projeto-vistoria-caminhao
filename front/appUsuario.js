@@ -25,6 +25,7 @@ import {
 //import { describe } from 'node:test';
 
 import { Usuario } from '../classes/Usuario.js';
+import './popupCaminhao.js';
 
 let usuarios = [];
 
@@ -353,7 +354,7 @@ async function inicializarVistoria() {
             Descricao: document.getElementById("observacao").value.trim() || null,
             Itens: itensSelecionados
         };
-
+        
         try {
             console.log("Dados enviados:", vistoria);
             const resultado = await agendarVistoria(vistoria);

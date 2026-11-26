@@ -93,11 +93,61 @@
                     Agendar Vistoria
                 </button>
 
+<<<<<<< HEAD
                 <button type="button" id="btnNovo">
                     Novo 
+=======
+                <button type="reset" id="btnNovo">
+                    Cadastrar Caminhão
+>>>>>>> Gabriel
                 </button>
             </div>
         </form>
+        <!-- Popup de cadastro de caminhão -->
+        <div id="popupCaminhao" class="modal">
+
+            <div class="modal-conteudo">
+
+                <h2>Cadastrar Novo Caminhão</h2>
+
+                <form id="formCaminhao">
+
+                    <label for="placa">Placa</label>
+                    <input type="text" id="placa" maxlength="7" placeholder="Ex: ABC1D23" required>
+
+                    <label for="modelo">Modelo</label>
+                    <input type="text" id="modelo" placeholder="Modelo do caminhão" required>
+
+                    <label for="marca">Marca</label>
+                    <input type="text" id="marca" placeholder="Marca do caminhão" required>
+
+                    <label for="ano">Ano</label>
+                    <input type="date" id="ano" required>
+
+                    <label for="capacidade">Capacidade</label>
+                    <input type="number" id="capacidade" step="0.01" min="0" required>
+
+                    <label for="peso">Peso</label>
+                    <input type="number" id="peso" step="0.01" min="0" required>
+
+                    <label for="numEixos">Número de eixos</label>
+                    <input type="number" id="numEixos" min="1" step="1" required>
+
+                    <div class="acoes">
+                        <button type="submit" id="btnCadastrar">
+                            Cadastrar
+                        </button>
+
+                        <button type="button" id="btnFechar">
+                            Cancelar
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
     </div>
     <script type="module" src="./front/appUsuario.js"></script>
 </body>
