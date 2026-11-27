@@ -19,10 +19,10 @@ const itensPorPagina = 5;
 
 window.addEventListener('DOMContentLoaded', () => {
     const usuario = localStorage.getItem("usuario")
-    if(usuario == null)
+    if (usuario == null)
         window.location.href = "login.html"
 
-    if(JSON.parse(usuario).tipoUsuario == "analista")
+    if (JSON.parse(usuario).tipoUsuario == "analista")
         document.getElementById("menuOperador").style.display = "none";
 
     carregarVistorias()
@@ -34,44 +34,44 @@ window.addEventListener('DOMContentLoaded', () => {
     ]
 
     document
-    .getElementById('fTodos')
-    .addEventListener('click', () => {
-         pesquisarStatus("todos")
+        .getElementById('fTodos')
+        .addEventListener('click', () => {
+            pesquisarStatus("todos")
 
-         botoesFiltro.forEach(botao => botao.classList.remove('ativado'))
+            botoesFiltro.forEach(botao => botao.classList.remove('ativado'))
 
-         document.getElementById('fTodos').classList.add('ativado')
-    })
-
-    document
-    .getElementById('concluida')
-    .addEventListener('click', () => {
-         pesquisarStatus("1")
-
-         botoesFiltro.forEach(botao => botao.classList.remove('ativado'))
-
-         document.getElementById('concluida').classList.add('ativado')
-    })
+            document.getElementById('fTodos').classList.add('ativado')
+        })
 
     document
-    .getElementById('inconcluida')
-    .addEventListener('click', () => {
-         pesquisarStatus("0")
+        .getElementById('concluida')
+        .addEventListener('click', () => {
+            pesquisarStatus("1")
 
-         botoesFiltro.forEach(botao => botao.classList.remove('ativado'))
+            botoesFiltro.forEach(botao => botao.classList.remove('ativado'))
 
-         document.getElementById('inconcluida').classList.add('ativado')
-    })
+            document.getElementById('concluida').classList.add('ativado')
+        })
 
     document
-    .getElementById('deslogar')
-    .addEventListener('click', () => {
-        localStorage.removeItem("usuario");
-        window.location.href = "login.html"
-    })
+        .getElementById('inconcluida')
+        .addEventListener('click', () => {
+            pesquisarStatus("0")
+
+            botoesFiltro.forEach(botao => botao.classList.remove('ativado'))
+
+            document.getElementById('inconcluida').classList.add('ativado')
+        })
+
+    document
+        .getElementById('deslogar')
+        .addEventListener('click', () => {
+            localStorage.removeItem("usuario");
+            window.location.href = "login.html"
+        })
 })
 
-async function carregarVistorias(){
+async function carregarVistorias() {
 
     let dados = await listarVistorias();
     vistorias = dados;
@@ -98,11 +98,11 @@ async function carregarVistorias(){
     renderizarVistorias();
 }
 
-function renderizarVistorias(){
+function renderizarVistorias() {
 
     const tbody = document.getElementById("tbodyVistorias");
 
-    tbody.innerHTML="";
+    tbody.innerHTML = "";
 
     const pagina =
         paginate(
@@ -112,9 +112,9 @@ function renderizarVistorias(){
         );
 
     //let i = 0
-    pagina.forEach(vistoria=>{
+    pagina.forEach(vistoria => {
 
-        tbody.innerHTML+=`
+        tbody.innerHTML += `
         <tr>
             <td>${vistoria.Status ? "Concluído" : "Inconcluído"}</td>
             <td>${vistoria.Cod_Vistoria}</td>
@@ -129,7 +129,18 @@ function renderizarVistorias(){
             </td>
         </tr>
         `;
-       // i++
+        // i++
+        document.querySelectorAll(".btnEditar").forEach(botao => {
+
+            botao.addEventListener("click", () => {
+
+                const codVistoria = botao.dataset.id;
+
+                abrirPopup(codVistoria);
+
+            });
+
+        });
     });
 
     tbody.querySelectorAll('.editarVisualizar').forEach(botao => {
@@ -142,17 +153,17 @@ function renderizarVistorias(){
     renderizarPaginas();
 }
 
-function renderizarPaginas(){
+function renderizarPaginas() {
 
     const qtd =
         Math.ceil(
-          vistorias.length /
-          itensPorPagina
+            vistorias.length /
+            itensPorPagina
         );
 
-    let html='';
+    let html = '';
 
-    for(let i=1;i<=qtd;i++){
+    for (let i = 1; i <= qtd; i++) {
 
         html += `
         <button
@@ -163,22 +174,22 @@ function renderizarPaginas(){
     }
 
     document
-    .getElementById("pagination")
-    .innerHTML = html;
+        .getElementById("pagination")
+        .innerHTML = html;
 }
 
-window.irPagina = function(pagina){
+window.irPagina = function (pagina) {
 
     paginaAtual = pagina;
 
     renderizarVistorias();
 }
 
-async function pesquisarStatus(tipo){
+async function pesquisarStatus(tipo) {
 
     console.log(`Filtrando por: ${tipo}`)
 
-    if(tipo==="todos"){
+    if (tipo === "todos") {
 
         await carregarVistorias();
 
@@ -188,20 +199,20 @@ async function pesquisarStatus(tipo){
     let dados = await buscarPorStatusVistorias(tipo);
 
     vistorias = dados
-   /*  vistorias = dados.map(vistoria => {
-        return new Vistoria(
-            vistoria.Cod_Vistoria,
-            vistoria.Data_Abertura,
-            vistoria.Data_Fechamento,
-            vistoria.Data_Prevista,
-            vistoria.Horario_Previsto,
-            vistoria.Placa,
-            vistoria.ID_Analista,
-            vistoria.ID_Operador,
-            vistoria.Status,
-            vistoria.Descricao   
-        )  
-    }) */
+    /*  vistorias = dados.map(vistoria => {
+         return new Vistoria(
+             vistoria.Cod_Vistoria,
+             vistoria.Data_Abertura,
+             vistoria.Data_Fechamento,
+             vistoria.Data_Prevista,
+             vistoria.Horario_Previsto,
+             vistoria.Placa,
+             vistoria.ID_Analista,
+             vistoria.ID_Operador,
+             vistoria.Status,
+             vistoria.Descricao   
+         )  
+     }) */
 
     paginaAtual = 1;
 

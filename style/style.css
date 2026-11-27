@@ -879,3 +879,67 @@ body.modal-aberto{
     border: none;
     border-radius: 6px;
 }
+
+
+/*popup edição*/
+.popup {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.65);
+
+    justify-content: center;
+    align-items: center;
+}
+
+
+.popup-conteudo {
+    background: white;
+    width: 90%;
+    max-width: 500px;
+    padding: 30px;
+    border-radius: 12px;
+    box-sizing: border-box;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.popup-conteudo h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+
+#formEditarItem {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#formEditarItem input,
+#formEditarItem textarea,
+#formEditarItem select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 15px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+#formEditarItem textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+
+.botoesPopup {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 15px;
+}
