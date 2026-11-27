@@ -44,6 +44,22 @@ app.get('/vistoria/ocorrencias', (req, res) => {
     });
 });
 
+app.get('/vistoria/ocorrencias/:id', (req, res) => {
+    const id = req.params.id
+    if(isNaN(id)) {
+        res.send({
+            msg: 'ID inválido'
+        })
+        return
+    }
+    OcorrenciaDB.getOcorrenciasByVistoria(id, function(vistoria) {
+        res.json(vistoria)
+    })
+})
+
+
+
+//get VISTORIAS
 app.get('/vistoria/vistorias/:id', (req, res) => {
     const id = req.params.id
     if(isNaN(id)) {
@@ -75,6 +91,38 @@ app.get('/vistoria/vistorias/dia/:dia', (req, res) => {
     })
 })
 
+app.patch('/vistoria/vistorias/:id', (req, res) => {
+    const update = req.body
+    const id = parseInt(req.params.id)
+
+    if (isNaN(id)) {
+        res.send({
+            msg: 'ID inválido'
+        })
+        return
+    }
+
+    VistoriaDB.updateParcialVistoria(id, update, function (usuario) {
+        res.json({
+            msg: 'usuário atualizado com sucesso'
+        })
+    })    
+})
+
+
+
+//get ITENS
+app.get('/vistoria/itens/:id', (req, res) => {
+    const id = parseInt(req.params.id)
+
+    VistoriaDB.getItensByVistoria(id, function(vistorias) {
+        res.json(vistorias)
+    })
+})
+
+
+
+// get USUARIOS
 app.get('/vistoria/usuarios', function (req, res) {
     UsuarioDB.getUsuarios(function (usuarios) {
         res.json(usuarios)

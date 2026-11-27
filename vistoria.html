@@ -30,16 +30,6 @@
 
             <a href="vistoriaAgendamento.html">Criar nova vistoria</a>
 
-            <div id="filtros">
-
-                <label for="ordem">Ordenar por: </label>
-                <select name="ordem" id="ordem">
-                    <option value="1">Mais recente</option>
-                    <option value="2">Mais antigo</option>
-                </select>
-
-            </div>
-
             <section class="card">
 
                 <div id="botoesFiltro">
@@ -64,42 +54,6 @@
 
             </section>
 
-
-            <!-- Popup para editar item da vistoria -->
-            <div id="popupEditar" class="popup">
-                <div class="popup-conteudo">
-                    <h2>Registrar item da vistoria</h2>
-                    <form id="formEditarItem">
-                        <input type="hidden" id="codVistoria">
-                        <label for="nomeItem">Nome do item:</label>
-                        <input type="text" id="nomeItem" placeholder="Ex.: Faróis e lanternas" required>
-                        <label for="descricaoItem">Descrição:</label>
-                        <textarea id="descricaoItem" placeholder="Descreva a situação encontrada..."required></textarea>
-
-                        <label for="dataEdicao">Data da edição:</label>
-                        <input type="date" id="dataEdicao" required>
-
-                        <label for="gravidade">Gravidade:</label>
-                        <select id="gravidade" required>
-                            <option value="">Selecione a gravidade</option>
-                            <option value="OK">OK</option>
-                            <option value="Leve">Leve</option>
-                            <option value="Moderada">Moderada</option>
-                            <option value="Grave">Grave</option>
-                        </select>
-
-                        <div class="botoesPopup">
-                            <button type="button" id="cancelarPopup">
-                                Cancelar
-                            </button>
-
-                            <button type="submit" id="salvarItem">
-                                Salvar item
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
         </div>
 
         <footer aria-hidden="true">

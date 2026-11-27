@@ -3,7 +3,10 @@ import {
     buscarPorId,
     listarCaminhoes,
     agendarVistoria,
-    buscarPorIdVistorias
+    buscarPorIdVistorias,
+    listaItens,
+    atualizarVistoria,
+    listarOcorrenciasPorVistoria
 } from './api.js';
 
 import {
@@ -51,253 +54,7 @@ window.addEventListener("DOMContentLoaded", () => {
         return;
     }
 
-    carregarUsuarios();
-
-    document
-        .getElementById("btnSalvar")
-        .addEventListener("click", salvar);
-
-    document
-        .getElementById("btnNovo")
-        .addEventListener("click",
-            limparFormulario);
-
 });
-
-async function carregarPets() {
-
-    let dados = await listarUsuarios();
-
-    usuarios = dados.map(usuario => {
-        return new Usuario(
-            usuario.Nome,
-            usuario.ID_usuario,
-            usuario.Email,
-            usuario.Num_Vistorias,
-            usuario.Num_Ocorrencias,
-            usuario.Data_Adesao,
-            usuario.Tipo_Usuario
-        )
-    })
-
-    paginaAtual = 1;
-
-    renderizarTabela();
-}
-
-function renderizarTabela() {
-
-    const tbody =
-        document.getElementById("tbodyUsuarios");
-
-    tbody.innerHTML = "";
-
-    const pagina =
-        paginate(
-            usuarios,
-            paginaAtual,
-            itensPorPagina
-        );
-
-    pagina.forEach(usuario => {
-
-        tbody.innerHTML += `
-        <tr>
-            <td>${usuario.getId()}</td>
-            <td>${usuario.getNome()}</td>
-            <td>${usuario.getEmail()}</td>
-            <td>${usuario.getTipo()}</td>
-            <td>${usuario.getAdesao().split('T')[0]}</td>
-            <td>${usuario.getNumVistorias()}</td>
-            <td>${usuario.getNumOcorrencias()}</td>
-
-            <td>
-
-                <button
-                    onclick="editar(${usuario.getId()})">
-                    Editar
-                </button>
-
-                <button
-                    onclick="remover(${usuario.getId()})">
-                    Excluir
-                </button>
-
-            </td>
-        </tr>
-        `;
-    });
-
-    renderizarPaginas();
-}
-
-function renderizarPaginas() {
-
-    const qtd =
-        Math.ceil(
-            pets.length /
-            itensPorPagina
-        );
-
-    let html = '';
-
-    for (let i = 1; i <= qtd; i++) {
-
-        html += `
-        <button
-        onclick="irPagina(${i})">
-        ${i}
-        </button>
-        `;
-    }
-
-    document
-        .getElementById("pagination")
-        .innerHTML = html;
-}
-
-window.irPagina = function (pagina) {
-
-    paginaAtual = pagina;
-
-    renderizarTabela();
-}
-
-window.editar = async function (id) {
-
-    const usuario =
-        await buscarPorId(id);
-
-    console.log(usuario)
-
-    preencherFormulario(usuario[0]);
-}
-
-window.remover = async function (id) {
-
-    if (!confirm("Deseja excluir?"))
-        return;
-
-    await excluirUsuario(id);
-
-    mostrarMensagem(
-        "Usuário removido",
-        "sucesso"
-    );
-
-    carregarUsuarios();
-}
-
-
-async function salvar() {
-
-    const id = document.getElementById("id").value;
-
-    const usuario = {
-
-        Nome:
-            document.getElementById("nome").value,
-
-        Email:
-            document.getElementById("email").value,
-
-        Tipo_Usuario:
-            document.getElementById("tipoUsuario").value,
-
-        Num_Vistorias:
-            Number(
-                document.getElementById("nVistorias").value
-            ),
-
-        Num_Ocorrencias:
-            Number(
-                document.getElementById("nOcorrencias").value
-            )
-    };
-
-    const erros = validarUsuario(usuario);
-
-    if (erros.length > 0) {
-
-        mostrarMensagem(
-            erros.join(" | "),
-            "erro"
-        );
-
-        return;
-    }
-
-    try {
-
-        if (id) {
-            console.log(id)
-            console.log(usuario)
-
-            await atualizarUsuario(id, usuario);
-
-            mostrarMensagem(
-                "Usuário atualizado",
-                "sucesso"
-            );
-        }
-        else {
-
-            usuario.Data_Adesao = `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`
-
-            console.log(usuario)
-
-            await salvarUsuario(usuario);
-
-            mostrarMensagem(
-                "Usuário cadastrado",
-                "sucesso"
-            );
-        }
-
-        limparFormulario();
-
-        carregarUsuarios();
-
-    } catch (erro) {
-
-        mostrarMensagem(
-            erro.message,
-            "erro"
-        );
-    }
-}
-
-async function pesquisarTipo(tipo) {
-
-    console.log(`Filtrando por: ${tipo}`)
-
-    if (tipo === "todos") {
-
-        carregarUsuarios();
-
-        return;
-    }
-
-    pets =
-        await buscarPorTipo(tipo);
-
-    usuarios = dados.map(usuario => {
-        return new Usuario(
-            usuario.Nome,
-            usuario.ID_usuario,
-            usuario.Email,
-            usuario.Num_Vistorias,
-            usuario.Num_Ocorrencias,
-            usuario.Data_Adesao,
-            usuario.Tipo_Usuario
-        )
-    })
-
-    paginaAtual = 1;
-
-    renderizarTabela();
-}
-
 
 async function inicializarVistoria(codVistoria) {
     const form = document.getElementById("formVistoria");
@@ -312,6 +69,8 @@ async function inicializarVistoria(codVistoria) {
         if(codVistoria)
         {
             const dadosVistoria = await buscarPorIdVistorias(codVistoria);
+            const itensVistoria = await listaItens(codVistoria)
+            let itensVistoriaTratados = itensVistoria.map(item => item.Nome_Item)
 
             const vistoria = dadosVistoria[0]
 
@@ -326,14 +85,25 @@ async function inicializarVistoria(codVistoria) {
                 document.getElementById("horarioPrevisto").value = vistoria.Horario_Previsto;
                 document.getElementById("observacao").value = vistoria.Descricao;
 
-                const itensVistoria = vistoria.Itens;
-
                 document.querySelectorAll('input[name="itensVistoria"]').forEach(checkbox => {
-                    if (itensVistoria.includes(checkbox.value))
+                    if (itensVistoriaTratados.includes(checkbox.value))
                         checkbox.checked = true;
                 })
 
+                carregarOcorrencias(codVistoria)
+
+                const usuarioLogado = JSON.parse(localStorage.getItem("usuario"));
+
+                if (Number(vistoria.ID_Analista) != Number(usuarioLogado.idUsuario)) {
+                    const elementos = form.elements;
+                    for (let i = 0; i < elementos.length; i++)
+                        elementos[i].disabled = true;
+
+                    document.getElementById("btnSalvar").style.display = "none";
+                }
             }
+
+            document.getElementById("btnSalvar").innerText = 'Editar Vistoria'
         }
 
     } catch (error) {
@@ -353,7 +123,7 @@ async function inicializarVistoria(codVistoria) {
 
             const vistoria = new Vistoria(
             document.getElementById("dataPrevista").value,
-            horario + ":00",
+            horario.length <= 5 ? horario + ':00' : horario,
             document.getElementById("placaCaminhao").value,
             Number(usuario.idUsuario),
             Number(document.getElementById("operador").value),
@@ -371,10 +141,18 @@ async function inicializarVistoria(codVistoria) {
                 Itens: vistoria.getItens()
             }
 
-            console.log('Dados enviado:', dadosVistoria)
-            const resultado = await agendarVistoria(dadosVistoria)
-            alert(resultado.msg)
-            form.reset()
+        if (codVistoria)
+        {
+            const resultado = await atualizarVistoria(codVistoria, dadosVistoria);
+            alert(resultado.msg || "Vistoria atualizada com sucesso!");
+            window.location.href = "vistoria.html";
+        }
+        else
+        {
+            const resultado = await agendarVistoria(dadosVistoria);
+            alert(resultado.msg);
+            form.reset();
+        }
         }catch(error){
             console.error("Erro ao agendar vistoria:", error)
             alert(error.message || "Falha ao realizar agendamento")
@@ -401,5 +179,22 @@ function carregarOperadores(operadores) {
         option.value = operador.idUsuario;
         option.textContent = operador.nome;
         select.appendChild(option);
+    });
+}
+
+async function carregarOcorrencias(id)
+{
+    const ocorrencias = await listarOcorrenciasPorVistoria(id)
+
+    ocorrencias.forEach(item => {
+        const areaOcorrencias = document.getElementById("areaOcorrencias");
+
+        if(ocorrencias.length == 0)
+            areaOcorrencias.innerHTML = 'Não há ocorrências para essa vistoria'
+
+        areaOcorrencias.innerHTML = `
+            <p><strong>Item:</strong> ${item.COD_Ocorrencia}</p>
+            <p><strong>Descrição:</strong> ${item.Titulo}</p>
+        `;
     });
 }

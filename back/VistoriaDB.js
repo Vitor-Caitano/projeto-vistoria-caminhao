@@ -80,7 +80,7 @@ class VistoriaDB {
     static getVistorias(callback)
     {
         let connection = Connect.connect()
-        let sql = "select v.Cod_Vistoria, v.Status, v.Data_Abertura, v.Horario_Previsto, Placa, v.Data_Prevista, v.ID_Operador, v.ID_Analista, u.nome as nomeAnalista, o.nome as nomeOperador from vistoria v join Usuario u on v.ID_Analista = u.idUsuario join Usuario o on v.ID_Operador = o.idUsuario"
+        let sql = "select v.Cod_Vistoria, v.Status, v.Data_Abertura, v.Horario_Previsto, v.Placa, v.Descricao, v.Data_Prevista, v.ID_Operador, v.ID_Analista, u.nome as nomeAnalista, o.nome as nomeOperador from vistoria v join Usuario u on v.ID_Analista = u.idUsuario join Usuario o on v.ID_Operador = o.idUsuario"
         let query = connection.query(sql, function(error, results, fields) {
             if(error)
                 throw error
@@ -94,7 +94,7 @@ class VistoriaDB {
     static getVistoriaById(id, callback)
     {
         let connection = Connect.connect()
-        let sql = "select v.Cod_Vistoria, v.Status, v.Data_Abertura, v.Horario_Previsto, Placa, v.Data_Prevista, v.ID_Operador, v.ID_Analista, u.nome as nomeAnalista, o.nome as nomeOperador from vistoria v join Usuario u on v.ID_Analista = u.idUsuario join Usuario o on v.ID_Operador = o.idUsuario where Cod_Vistoria = ?"
+        let sql = "select v.Cod_Vistoria, v.Status, v.Data_Abertura, v.Horario_Previsto, v.Placa, v.Descricao, v.Data_Prevista, v.ID_Operador, v.ID_Analista, u.nome as nomeAnalista, o.nome as nomeOperador from vistoria v join Usuario u on v.ID_Analista = u.idUsuario join Usuario o on v.ID_Operador = o.idUsuario where Cod_Vistoria = ?"
         let query = connection.query(sql, id, function(error, results, fields) {
             if(error)
                 throw error
@@ -108,7 +108,7 @@ class VistoriaDB {
     static getVistoriaByStatus(status, callback)
     {
         let connection = Connect.connect()
-        let sql = "select v.Cod_Vistoria, v.Status, v.Data_Abertura, v.Horario_Previsto, Placa, v.Data_Prevista, v.ID_Operador, v.ID_Analista, u.nome as nomeAnalista, o.nome as nomeOperador from vistoria v join Usuario u on v.ID_Analista = u.idUsuario join Usuario o on v.ID_Operador = o.idUsuario where Status = ?"
+        let sql = "select v.Cod_Vistoria, v.Status, v.Data_Abertura, v.Horario_Previsto, v.Placa, v.Descricao, v.Data_Prevista, v.ID_Operador, v.ID_Analista, u.nome as nomeAnalista, o.nome as nomeOperador from vistoria v join Usuario u on v.ID_Analista = u.idUsuario join Usuario o on v.ID_Operador = o.idUsuario where Status = ?"
         let query = connection.query(sql, status, function(error, results, fields) {
             if(error)
                 throw error
@@ -122,7 +122,7 @@ class VistoriaDB {
     static getVistoriaByDia(data, callback)
     {
         let connection = Connect.connect()
-        let sql = "select v.Cod_Vistoria, v.Status, v.Data_Abertura, v.Horario_Previsto, Placa, v.Data_Prevista, v.ID_Operador, v.ID_Analista, u.nome as nomeAnalista, o.nome as nomeOperador from vistoria v join Usuario u on v.ID_Analista = u.idUsuario join Usuario o on v.ID_Operador = o.idUsuario where Data_Prevista = ?"
+        let sql = "select v.Cod_Vistoria, v.Status, v.Data_Abertura, v.Horario_Previsto, v.Placa, v.Descricao, v.Data_Prevista, v.ID_Operador, v.ID_Analista, u.nome as nomeAnalista, o.nome as nomeOperador from vistoria v join Usuario u on v.ID_Analista = u.idUsuario join Usuario o on v.ID_Operador = o.idUsuario where Data_Prevista = ?"
         let query = connection.query(sql, data, function(error, results, fields) {
             if(error)
                 throw error
@@ -131,6 +131,69 @@ class VistoriaDB {
         })
         console.log(query.sql)
         connection.end()
+    }
+
+    static updateParcialVistoria(id, vistoria, callback) {
+        let connection = Connect.connect();
+
+        // 1. Objeto de dados para o SET ? funcionar corretamente
+        let dadosAtualizacao = {
+            Data_Prevista: vistoria.Data_Prevista,
+            Horario_Previsto: vistoria.Horario_Previsto,
+            Descricao: vistoria.Descricao || null,
+            ID_Analista: vistoria.ID_Analista,
+            ID_Operador: vistoria.ID_Operador,
+            Placa: vistoria.Placa
+        };
+
+        let sqlVistoria = 'update Vistoria SET ? where Cod_Vistoria = ?';
+        
+        connection.query(sqlVistoria, [dadosAtualizacao, id], function(error, results) {
+            if (error) {
+                connection.end();
+                return callback(error);
+            }
+
+            let sqlDelete = 'delete from Item_Vistoria where COD_Vistoria = ?';
+            
+            connection.query(sqlDelete, [id], function(error) {
+                if (error) {
+                    connection.end();
+                    return callback(error);
+                }
+
+                if (vistoria.Itens.length === 0) {
+                    connection.end();
+                    return callback(null, { Cod_Vistoria: id, msg: "Atualizado com sucesso" });
+                }
+
+                let valoresItens = vistoria.Itens.map(item => [id, item, 'Pendente']);
+                let sqlInsert = 'INSERT INTO Item_Vistoria (COD_Vistoria, Nome_Item, Situacao) VALUES ?';
+
+                connection.query(sqlInsert, [valoresItens], function(error) {
+                    connection.end();
+                    if (error) {
+                        return callback(error);
+                    }
+                    callback(null, { Cod_Vistoria: id, msg: "Atualizado com sucesso" });
+                });
+            });
+        });
+    }
+
+    //get para os itens pelo id da vistoria
+    static getItensByVistoria(id, callback)
+    {
+        let connection = Connect.connect()
+        let sql = "select Nome_Item from item_vistoria where COD_Vistoria = ?"
+        let query = connection.query(sql, id, function(error, results, fields) {
+            if(error)
+                throw error
+
+            callback(results)
+        })
+        console.log(query.sql)
+        connection.end()        
     }
 
 }

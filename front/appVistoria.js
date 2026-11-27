@@ -116,9 +116,9 @@ function renderizarVistorias() {
 
         tbody.innerHTML += `
         <tr>
-            <td>${vistoria.Status ? "Concluído" : "Inconcluído"}</td>
+            <td>${vistoria.Status ? "Concluída" : "Inconcluída"}</td>
             <td>${vistoria.Cod_Vistoria}</td>
-            <td>Vistoria do operador ${vistoria.nomeOperador} <br> ${vistoria.Data_Abertura}</td>
+            <td>Vistoria do operador ${vistoria.nomeOperador} <br> ${vistoria.Data_Abertura.split("T")[0].split("-")[2]}/${vistoria.Data_Abertura.split("T")[0].split("-")[1]}/${vistoria.Data_Abertura.split("T")[0].split("-")[0]}</td>
             <td>
                 <button
                     class="editarVisualizar"

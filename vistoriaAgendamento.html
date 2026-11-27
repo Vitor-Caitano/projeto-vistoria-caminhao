@@ -90,6 +90,13 @@
             </section>
 
             <section class="card">
+                <h2>Ocorrências</h2>
+                <div id="areaOcorrencias">
+                    
+                </div>
+            </section>
+
+            <section class="card">
                 <h2>Observações</h2>
                 <textarea id="observacao" placeholder="Informações adicionais sobre a vistoria..." rows="4">
                 </textarea>
@@ -105,6 +112,46 @@
                 </button>
             </div>
         </form>
+
+
+        <!-- Popup de cadastro de caminhão -->
+        <div id="popupEditar" class="popup">
+            <div class="popup-conteudo">
+                <h2>Registrar item da vistoria</h2>
+                <form id="formEditarItem">
+                    <input type="hidden" id="codVistoria">
+                    <label for="nomeItem">Nome do item:</label>
+                    <input type="text" id="nomeItem" placeholder="Ex.: Faróis e lanternas" required>
+                    <label for="descricaoItem">Descrição:</label>
+                    <textarea id="descricaoItem" placeholder="Descreva a situação encontrada..."required></textarea>
+
+                    <label for="dataEdicao">Data da edição:</label>
+                    <input type="date" id="dataEdicao" required>
+
+                    <label for="gravidade">Gravidade:</label>
+                    <select id="gravidade" required>
+                        <option value="">Selecione a gravidade</option>
+                        <option value="OK">OK</option>
+                        <option value="Leve">Leve</option>
+                        <option value="Moderada">Moderada</option>
+                        <option value="Grave">Grave</option>
+                    </select>
+
+                    <div class="botoesPopup">
+                        <button type="button" id="cancelarPopup">
+                            Cancelar
+                        </button>
+
+                        <button type="submit" id="salvarItem">
+                            Salvar item
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+
         <!-- Popup de cadastro de caminhão -->
         <div id="popupCaminhao" class="modal">
 

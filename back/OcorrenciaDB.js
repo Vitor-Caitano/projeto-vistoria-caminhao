@@ -17,6 +17,19 @@ class OcorrenciaDB {
             callback(error, ocorrencias);
         });
     }
+
+    static getOcorrenciasByVistoria(id, callback) {
+        let connection = Connect.connect()
+        let sql = "select Cod_Ocorrencia, Titulo from ocorrencia where COD_Vistoria = ?"
+        let query = connection.query(sql, id, function(error, results, fields) {
+            if(error)
+                throw error
+
+            callback(results)
+        })
+        console.log(query.sql)
+        connection.end()        
+    }
 }
 
 module.exports = OcorrenciaDB

@@ -123,13 +123,35 @@ export async function agendarVistoria(vistoria) {
     return resultado;
 }
 
-
 export async function listarVistorias()
 {
     const response = await fetch(`${API_URL}/vistorias`)
     return await response.json()
 }
 
+//atualizar vistoria
+export async function atualizarVistoria(id, vistoria)
+{
+    const response =
+        await fetch(`${API_URL}/vistorias/${id}`,{
+            method:"PATCH",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify(vistoria)
+        });
+
+    return await response.json();  
+}
+
+//busca os itens das vistorias
+export async function listaItens(idVistoria)
+{
+    const response = await fetch(`${API_URL}/itens/${idVistoria}`)
+    return await response.json()
+}
+
+//buscar ocorrencias
 export async function listarOcorrencias() {
     const response = await fetch(`${API_URL}/ocorrencias`);
 
@@ -139,6 +161,11 @@ export async function listarOcorrencias() {
     }
 
     return await response.json();
+}
+
+export async function listarOcorrenciasPorVistoria(id) {
+    const response = await fetch(`${API_URL}/ocorrencias/${id}`);
+    return await response.json()
 }
 
 export async function buscarPorIdVistorias(id)
