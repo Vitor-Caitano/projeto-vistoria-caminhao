@@ -8,6 +8,18 @@ let paginaAtual = 1;
 window.addEventListener('DOMContentLoaded', carregarOcorrencias);
 
 async function carregarOcorrencias() {
+    const usuario = localStorage.getItem("usuario")
+    if(usuario == null)
+        window.location.href = "login.html"
+
+    if(JSON.parse(usuario).tipoUsuario == "analista")
+        document.getElementById("menuOperador").style.display = "none";
+
+    document.getElementById('deslogar').addEventListener('click', () => {
+        localStorage.removeItem("usuario");
+        window.location.href = "login.html"
+    })
+
     const mensagem = document.getElementById('mensagemOcorrencias');
     mensagem.textContent = 'Carregando ocorrências...';
 

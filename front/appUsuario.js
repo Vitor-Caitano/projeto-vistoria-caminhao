@@ -29,6 +29,17 @@ let paginaAtual = 1;
 const itensPorPagina = 5;
 
 window.addEventListener("DOMContentLoaded", () => {
+    const usuario = localStorage.getItem("usuario")
+    if(usuario == null)
+        window.location.href = "login.html"
+
+    if(JSON.parse(usuario).tipoUsuario == "analista")
+        document.getElementById("menuOperador").style.display = "none";
+
+    document.getElementById('deslogar').addEventListener('click', () => {
+        localStorage.removeItem("usuario");
+        window.location.href = "login.html"
+    })
 
     if (document.getElementById("formVistoria")) {
         inicializarVistoria();

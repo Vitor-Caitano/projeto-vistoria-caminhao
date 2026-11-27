@@ -4,6 +4,7 @@ const path = require('path')
 var app = express()
 var UsuarioDB = require('./UsuarioDB')
 var VistoriaDB = require('./VistoriaDB.js')
+var OcorrenciaDB = require('./OcorrenciaDB.js')
 const CaminhaoController = require('./CaminhaoController');
 
 const VistoriaController = require('./Controller.js')
@@ -30,8 +31,11 @@ app.get('/vistoria/vistorias', (req, res) => {
     })
 })
 
+
+
+//get OCORRêNCIAS
 app.get('/vistoria/ocorrencias', (req, res) => {
-    VistoriaDB.getOcorrencias((error, ocorrencias) => {
+    OcorrenciaDB.getOcorrencias((error, ocorrencias) => {
         if (error) {
             console.error(error);
             return res.status(500).json({ msg: 'Erro ao consultar ocorrências.' });
