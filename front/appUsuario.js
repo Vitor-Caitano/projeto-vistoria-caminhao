@@ -21,6 +21,7 @@ import {
 //import { describe } from 'node:test';
 
 import './popupCaminhao.js';
+import { Vistoria } from '../../classes/Vistoria.js';
 
 let usuarios = [];
 
@@ -63,7 +64,7 @@ async function carregarPets() {
 
     let dados = await listarUsuarios();
 
-    usuarios = dados.map(usuario  => {
+    usuarios = dados.map(usuario => {
         return new Usuario(
             usuario.Nome,
             usuario.ID_usuario,
@@ -191,23 +192,23 @@ async function salvar() {
     const usuario = {
 
         Nome:
-        document.getElementById("nome").value,
+            document.getElementById("nome").value,
 
         Email:
-        document.getElementById("email").value,
+            document.getElementById("email").value,
 
         Tipo_Usuario:
-        document.getElementById("tipoUsuario").value,
+            document.getElementById("tipoUsuario").value,
 
         Num_Vistorias:
-        Number(
-            document.getElementById("nVistorias").value
-        ),
+            Number(
+                document.getElementById("nVistorias").value
+            ),
 
         Num_Ocorrencias:
-        Number(
-            document.getElementById("nOcorrencias").value
-        )
+            Number(
+                document.getElementById("nOcorrencias").value
+            )
     };
 
     const erros = validarUsuario(usuario);
@@ -224,7 +225,7 @@ async function salvar() {
 
     try {
 
-        if(id){
+        if (id) {
             console.log(id)
             console.log(usuario)
 
@@ -237,7 +238,7 @@ async function salvar() {
         }
         else {
 
-            usuario.Data_Adesao = `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()}`
+            usuario.Data_Adesao = `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`
 
             console.log(usuario)
 
@@ -284,7 +285,7 @@ async function pesquisarTipo(tipo) {
             usuario.Num_Vistorias,
             usuario.Num_Ocorrencias,
             usuario.Data_Adesao,
-            usuario.Tipo_Usuario        
+            usuario.Tipo_Usuario
         )
     })
 
@@ -311,26 +312,41 @@ async function inicializarVistoria() {
 
     form.addEventListener("submit", async (event) => {
         event.preventDefault();
-        const horario = document.getElementById("horarioPrevisto").value;
-        const itensSelecionados = Array.from(document.querySelectorAll('input[name="itensVistoria"]:checked')).map(item => item.value)
-        const vistoria = {
-            ID_Analista: Number(JSON.parse(localStorage.getItem("usuario")).idUsuario),
-            ID_Operador: Number(document.getElementById("operador").value),
-            Placa: document.getElementById("placaCaminhao").value,
-            Data_Prevista: document.getElementById("dataPrevista").value,
-            Horario_Previsto: horario + ":00",
-            Descricao: document.getElementById("observacao").value.trim() || null,
-            Itens: itensSelecionados
-        };
-        
         try {
-            console.log("Dados enviados:", vistoria);
-            const resultado = await agendarVistoria(vistoria);
-            alert(resultado.msg);
-            form.reset();
-        } catch (error) {
-            console.error("Erro ao agendar vistoria:", error);
-            alert("Falha ao realizar agendamento");
+            const horario = document.getElementById("horarioPrevisto").value;
+            const itensSelecionados = Array.from(document.querySelectorAll('input[name="itensVistoria"]:checked')).map(item => item.value)
+            
+            const usuario = JSON.parse(localStorage.getItem('usuario'))
+            if (!usuario || !usuario.idUsuario) 
+                throw new Error("Usuário não identificado. Faça login novamente.");
+
+            const vistoria = new Vistoria(
+            document.getElementById("dataPrevista").value,
+            horario + ":00",
+            document.getElementById("placaCaminhao").value,
+            Number(usuario.idUsuario),
+            Number(document.getElementById("operador").value),
+            document.getElementById("observacao").value.trim(),
+            itensSelecionados
+            )
+
+            const dadosVistoria = {
+                ID_Analista: vistoria.getAnalista(),
+                ID_Operador: vistoria.getOperador(),
+                Placa: vistoria.getPlaca(),
+                Data_Prevista: vistoria.getPrevisao(),
+                Horario_Previsto: vistoria.getHorario(),
+                Descricao: vistoria.getDesc() || null,
+                Itens: vistoria.getItens()
+            }
+
+            console.log('Dados enviado:', dadosVistoria)
+            const resultado = await agendarVistoria(dadosVistoria)
+            alert(resultado.msg)
+            form.reset()
+        }catch(error){
+            console.error("Erro ao agendar vistoria:", error)
+            alert(error.message || "Falha ao realizar agendamento")
         }
     });
 }
