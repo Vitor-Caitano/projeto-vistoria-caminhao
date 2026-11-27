@@ -2,7 +2,8 @@ import {
     buscarPorTipo,
     buscarPorId,
     listarCaminhoes,
-    agendarVistoria
+    agendarVistoria,
+    buscarPorIdVistorias
 } from './api.js';
 
 import {
@@ -42,8 +43,11 @@ window.addEventListener("DOMContentLoaded", () => {
         window.location.href = "login.html"
     })
 
+    const urlParams = new URLSearchParams(window.location.search);
+    const codVistoria = urlParams.get('cod');
+
     if (document.getElementById("formVistoria")) {
-        inicializarVistoria();
+        inicializarVistoria(codVistoria);
         return;
     }
 
@@ -295,7 +299,7 @@ async function pesquisarTipo(tipo) {
 }
 
 
-async function inicializarVistoria() {
+async function inicializarVistoria(codVistoria) {
     const form = document.getElementById("formVistoria");
     try {
         const [caminhoes, operadores] = await Promise.all([
@@ -304,6 +308,33 @@ async function inicializarVistoria() {
         ]);
         carregarCaminhoes(caminhoes);
         carregarOperadores(operadores);
+
+        if(codVistoria)
+        {
+            const dadosVistoria = await buscarPorIdVistorias(codVistoria);
+
+            const vistoria = dadosVistoria[0]
+
+            console.log(vistoria)
+
+            if(vistoria)
+            {
+                document.getElementById("placaCaminhao").value = vistoria.Placa
+                document.getElementById("operador").value = vistoria.ID_Operador;
+                document.getElementById("placaCaminhao").value = vistoria.Placa;
+                document.getElementById("dataPrevista").value = vistoria.Data_Prevista.split("T")[0];
+                document.getElementById("horarioPrevisto").value = vistoria.Horario_Previsto;
+                document.getElementById("observacao").value = vistoria.Descricao;
+
+                const itensVistoria = vistoria.Itens;
+
+                document.querySelectorAll('input[name="itensVistoria"]').forEach(checkbox => {
+                    if (itensVistoria.includes(checkbox.value))
+                        checkbox.checked = true;
+                })
+
+            }
+        }
 
     } catch (error) {
         console.error("Erro ao carregar os dados:", error);

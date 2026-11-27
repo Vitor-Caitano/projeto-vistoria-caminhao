@@ -80,7 +80,7 @@ class VistoriaDB {
     static getVistorias(callback)
     {
         let connection = Connect.connect()
-        let sql = "select v.Cod_Vistoria, v.Status, v.Data_Abertura, v.ID_Operador, v.ID_Analista, u.nome as nomeAnalista, o.nome as nomeOperador from vistoria v join Usuario u on v.ID_Analista = u.idUsuario join Usuario o on v.ID_Operador = o.idUsuario"
+        let sql = "select v.Cod_Vistoria, v.Status, v.Data_Abertura, v.Horario_Previsto, Placa, v.Data_Prevista, v.ID_Operador, v.ID_Analista, u.nome as nomeAnalista, o.nome as nomeOperador from vistoria v join Usuario u on v.ID_Analista = u.idUsuario join Usuario o on v.ID_Operador = o.idUsuario"
         let query = connection.query(sql, function(error, results, fields) {
             if(error)
                 throw error
@@ -94,7 +94,7 @@ class VistoriaDB {
     static getVistoriaById(id, callback)
     {
         let connection = Connect.connect()
-        let sql = "select v.Cod_Vistoria, v.Status, v.Data_Abertura, v.ID_Operador, v.ID_Analista, u.nome as nomeAnalista, o.nome as nomeOperador from vistoria v join Usuario u on v.ID_Analista = u.idUsuario join Usuario o on v.ID_Operador = o.idUsuario where Cod_Vistoria = ?"
+        let sql = "select v.Cod_Vistoria, v.Status, v.Data_Abertura, v.Horario_Previsto, Placa, v.Data_Prevista, v.ID_Operador, v.ID_Analista, u.nome as nomeAnalista, o.nome as nomeOperador from vistoria v join Usuario u on v.ID_Analista = u.idUsuario join Usuario o on v.ID_Operador = o.idUsuario where Cod_Vistoria = ?"
         let query = connection.query(sql, id, function(error, results, fields) {
             if(error)
                 throw error
@@ -108,7 +108,7 @@ class VistoriaDB {
     static getVistoriaByStatus(status, callback)
     {
         let connection = Connect.connect()
-        let sql = "select v.Cod_Vistoria, v.Status, v.Data_Abertura, v.ID_Operador, v.ID_Analista, u.nome as nomeAnalista, o.nome as nomeOperador from vistoria v join Usuario u on v.ID_Analista = u.idUsuario join Usuario o on v.ID_Operador = o.idUsuario where Status = ?"
+        let sql = "select v.Cod_Vistoria, v.Status, v.Data_Abertura, v.Horario_Previsto, Placa, v.Data_Prevista, v.ID_Operador, v.ID_Analista, u.nome as nomeAnalista, o.nome as nomeOperador from vistoria v join Usuario u on v.ID_Analista = u.idUsuario join Usuario o on v.ID_Operador = o.idUsuario where Status = ?"
         let query = connection.query(sql, status, function(error, results, fields) {
             if(error)
                 throw error
@@ -122,7 +122,7 @@ class VistoriaDB {
     static getVistoriaByDia(data, callback)
     {
         let connection = Connect.connect()
-        let sql = "select v.Cod_Vistoria, v.Status, v.Data_Abertura, v.ID_Operador, v.ID_Analista, u.nome as nomeAnalista, o.nome as nomeOperador from vistoria v join Usuario u on v.ID_Analista = u.idUsuario join Usuario o on v.ID_Operador = o.idUsuario where Data_Prevista = ?"
+        let sql = "select v.Cod_Vistoria, v.Status, v.Data_Abertura, v.Horario_Previsto, Placa, v.Data_Prevista, v.ID_Operador, v.ID_Analista, u.nome as nomeAnalista, o.nome as nomeOperador from vistoria v join Usuario u on v.ID_Analista = u.idUsuario join Usuario o on v.ID_Operador = o.idUsuario where Data_Prevista = ?"
         let query = connection.query(sql, data, function(error, results, fields) {
             if(error)
                 throw error

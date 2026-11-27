@@ -11,7 +11,7 @@ import { Vistoria } from '../classes/vistoria.js';
 
 let vistorias = [];
 
-//let operadores = [];
+let operadores = [];
 
 let paginaAtual = 1;
 
@@ -120,15 +120,24 @@ function renderizarVistorias(){
             <td>${vistoria.Cod_Vistoria}</td>
             <td>Vistoria do operador ${vistoria.nomeOperador} <br> ${vistoria.Data_Abertura}</td>
             <td>
-                <button 
+                <button
+                    class="editarVisualizar"
+                    data-cod="${vistoria.Cod_Vistoria}"
                     id="${vistoria.Cod_Vistoria}">
-                    Editar
+                    ${vistoria.ID_Analista == JSON.parse(localStorage.getItem("usuario")).idUsuario ? "Editar" : "Visualizar" }
                 </button>
             </td>
         </tr>
         `;
        // i++
     });
+
+    tbody.querySelectorAll('.editarVisualizar').forEach(botao => {
+        botao.addEventListener('click', (evento) => {
+            const codVistoria = evento.target.getAttribute('data-cod');
+            window.location.href = `vistoriaAgendamento.html?cod=${codVistoria}`;
+        })
+    })
 
     renderizarPaginas();
 }
