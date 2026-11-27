@@ -1,10 +1,6 @@
 import {
-    listarUsuarios,
-    buscarPorId,
     buscarPorTipo,
-    //salvarPet,
-    //atualizarPet,
-    //excluirPet,
+    buscarPorId,
     listarCaminhoes,
     agendarVistoria
 } from './api.js';
@@ -24,7 +20,6 @@ import {
 } from './pagination.js';
 //import { describe } from 'node:test';
 
-import { Usuario } from '../classes/Usuario.js';
 import './popupCaminhao.js';
 
 let usuarios = [];
@@ -50,44 +45,6 @@ window.addEventListener("DOMContentLoaded", () => {
         .getElementById("btnNovo")
         .addEventListener("click",
             limparFormulario);
-
-
-    let botoesFiltro = [
-        document.getElementById('fTodos'),
-        document.getElementById('analistas'),
-        document.getElementById('operadores')
-    ]
-
-
-    document
-        .getElementById('fTodos')
-        .addEventListener('click', () => {
-            pesquisarTipo("todos")
-
-            botoesFiltro.forEach(botao => botao.classList.remove('ativado'))
-
-            document.getElementById('fTodos').classList.add('ativado')
-        })
-
-    document
-        .getElementById('analistas')
-        .addEventListener('click', () => {
-            pesquisarTipo("analista")
-
-            botoesFiltro.forEach(botao => botao.classList.remove('ativado'))
-
-            document.getElementById('analistas').classList.add('ativado')
-        })
-
-    document
-        .getElementById('operadores')
-        .addEventListener('click', () => {
-            pesquisarTipo("operador")
-
-            botoesFiltro.forEach(botao => botao.classList.remove('ativado'))
-
-            document.getElementById('operadores').classList.add('ativado')
-        })
 
 });
 
@@ -346,7 +303,7 @@ async function inicializarVistoria() {
         const horario = document.getElementById("horarioPrevisto").value;
         const itensSelecionados = Array.from(document.querySelectorAll('input[name="itensVistoria"]:checked')).map(item => item.value)
         const vistoria = {
-            ID_Analista: 5, //Hardcodado pq ainda não temos login para verificar o id do usuario
+            ID_Analista: Number(JSON.parse(localStorage.getItem("usuario")).idUsuario),
             ID_Operador: Number(document.getElementById("operador").value),
             Placa: document.getElementById("placaCaminhao").value,
             Data_Prevista: document.getElementById("dataPrevista").value,

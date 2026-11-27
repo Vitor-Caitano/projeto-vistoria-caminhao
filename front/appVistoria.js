@@ -22,6 +22,9 @@ window.addEventListener('DOMContentLoaded', () => {
     if(usuario == null)
         window.location.href = "login.html"
 
+    if(JSON.parse(usuario).tipoUsuario == "analista")
+        document.getElementById("menuOperador").style.display = "none";
+
     carregarVistorias()
 
     let botoesFiltro = [
@@ -87,7 +90,7 @@ async function carregarVistorias(){
         )
     })
 
-    operadores = dados.map(vistoria => vistoria.Nome)
+    operadores = dados.map(vistoria => vistoria.nomeOperador)
 
     //paginaAtual = 1;
 

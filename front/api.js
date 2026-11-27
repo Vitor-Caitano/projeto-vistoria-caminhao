@@ -40,20 +40,20 @@ export async function salvarUsuario(usuario) {
                 "Content-Type":"application/json"
             },
             body:JSON.stringify({
-                Nome: usuario.getNome(),
-                Email: usuario.getEmail(),
-                Data_Adesao: usuario.getAdesao(),
-                Tipo_Usuario: usuario.getTipo(),
-                Num_Vistorias: usuario.getNumVistorias(),
-                Num_Ocorrencias: usuario.getNumOcorrencias(),
-                Senha: usuario.getSenha()
+                nome: usuario.getNome(),
+                email: usuario.getEmail(),
+                dataAdesao: usuario.getAdesao(),
+                tipoUsuario: usuario.getTipo(),
+                numVistorias: usuario.getNumVistorias(),
+                numOcorrencias: usuario.getNumOcorrencias(),
+                senha: usuario.getSenha()
             })
         });
 
     return await response.json();
 }
 
-export async function atualizarUsuario(id, pet){
+export async function atualizarUsuario(id, usuario){
 
     const response =
         await fetch(`${API_URL}/usuarios/${id}`,{
@@ -61,7 +61,7 @@ export async function atualizarUsuario(id, pet){
             headers:{
                 "Content-Type":"application/json"
             },
-            body:JSON.stringify(pet)
+            body:JSON.stringify(usuario)
         });
 
     return await response.json();

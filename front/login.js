@@ -46,7 +46,7 @@ form.addEventListener("submit", async function (event) {
         return;
     }
 
-    if(password.value == usuario.Senha)
+    if(password.value == usuario.senha)
     {
         loginStatus.textContent = "Entrando...";
         localStorage.setItem("usuario", JSON.stringify(usuario));
