@@ -11,7 +11,7 @@ import { Vistoria } from '../classes/vistoria.js';
 
 let vistorias = [];
 
-let operadores = [];
+//let operadores = [];
 
 let paginaAtual = 1;
 
@@ -74,8 +74,9 @@ window.addEventListener('DOMContentLoaded', () => {
 async function carregarVistorias(){
 
     let dados = await listarVistorias();
+    vistorias = dados;
 
-    vistorias = dados.map(vistoria  => {
+    /* vistorias = dados.map(vistoria  => {
         return new Vistoria(
             vistoria.Cod_Vistoria,
             vistoria.Data_Abertura,
@@ -90,7 +91,7 @@ async function carregarVistorias(){
         )
     })
 
-    operadores = dados.map(vistoria => vistoria.nomeOperador)
+    operadores = dados.map(vistoria => vistoria.nomeOperador) */
 
     //paginaAtual = 1;
 
@@ -99,8 +100,7 @@ async function carregarVistorias(){
 
 function renderizarVistorias(){
 
-    const tbody =
-        document.getElementById("tbodyVistorias");
+    const tbody = document.getElementById("tbodyVistorias");
 
     tbody.innerHTML="";
 
@@ -111,23 +111,23 @@ function renderizarVistorias(){
             itensPorPagina
         );
 
-    let i = 0
+    //let i = 0
     pagina.forEach(vistoria=>{
 
         tbody.innerHTML+=`
         <tr>
-            <td>${vistoria.getStatus() ? "Concluído" : "Inconcluído"}</td>
-            <td>${vistoria.getCod()}</td>
-            <td>Vistoria do operador ${operadores[i]} <br> ${vistoria.getAbertura().split('T')[0]}</td>
+            <td>${vistoria.Status ? "Concluído" : "Inconcluído"}</td>
+            <td>${vistoria.Cod_Vistoria}</td>
+            <td>Vistoria do operador ${vistoria.nomeOperador} <br> ${vistoria.Data_Abertura}</td>
             <td>
                 <button 
-                    id="${vistoria.getCod()}">
+                    id="${vistoria.Cod_Vistoria}">
                     Editar
                 </button>
             </td>
         </tr>
         `;
-        i++
+       // i++
     });
 
     renderizarPaginas();
@@ -171,14 +171,15 @@ async function pesquisarStatus(tipo){
 
     if(tipo==="todos"){
 
-        carregarVistorias();
+        await carregarVistorias();
 
         return;
     }
 
     let dados = await buscarPorStatusVistorias(tipo);
 
-    vistorias = dados.map(vistoria => {
+    vistorias = dados
+   /*  vistorias = dados.map(vistoria => {
         return new Vistoria(
             vistoria.Cod_Vistoria,
             vistoria.Data_Abertura,
@@ -191,7 +192,7 @@ async function pesquisarStatus(tipo){
             vistoria.Status,
             vistoria.Descricao   
         )  
-    })
+    }) */
 
     paginaAtual = 1;
 
