@@ -130,6 +130,17 @@ export async function listarVistorias()
     return await response.json()
 }
 
+export async function listarOcorrencias() {
+    const response = await fetch(`${API_URL}/ocorrencias`);
+
+    if (!response.ok) {
+        const resultado = await response.json();
+        throw new Error(resultado.msg || 'Erro ao carregar ocorrências.');
+    }
+
+    return await response.json();
+}
+
 export async function buscarPorIdVistorias(id)
 {
     const response = await fetch(`${API_URL}/vistorias/${id}`)
