@@ -171,27 +171,60 @@ th,td{
 }
 
 body {
-    font-family: Arial, Helvetica, sans-serif;
-    background: #f6faf5;
+    font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+    background: #f4f6f8;
     margin: 0;
 }
 
+
+
+/*CSS HEADER*/
 header {
     padding: 6px 100px;
     background-color: black;
+    color: white;
     box-shadow: 0 2px 5px rgba(0,0,0,.2);
     margin-bottom: 20px;
     display: flex;
     justify-content: space-between;
 }
 
-
-.container {
-    max-width: 90%;
-    margin: auto;
-    padding-bottom: 30px;
+.brand-name {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 15px 0;
 }
 
+header a {
+    text-decoration: none !important;
+    color: inherit !important;
+}
+
+footer {
+    padding: 20px 100px;
+    background-color: black;
+    box-shadow: 0 2px 5px rgba(0,0,0,.2);    
+}
+
+footer p {
+    color: white;
+    text-align: center;
+}
+
+#menuHeader {
+    display: flex;
+    gap: 40px;
+    margin: auto 0;
+}
+
+#menuHeader a {
+    color: white;
+    text-decoration: none;
+}
+
+
+
+/*CSS TEXTOS GERAIS*/
 h1 {
     margin-bottom: 20px;
     font-size: 2.6em;
@@ -208,6 +241,25 @@ p {
     color: #555;
 }
 
+
+
+/*CSS TELA VISTORIAS*/
+.card {
+    background: #fff;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    position: relative;
+    padding-top: 50px;
+}
+
+.container {
+    min-height: 80vh;
+    max-width: 90%;
+    margin: auto;
+    padding-bottom: 30px;
+}
+
 button{
     padding:10px 15px;
     margin: 10px 0;
@@ -222,27 +274,81 @@ button:hover{
     background:#efa123;
 }
 
+#filtros {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #fff;
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: 1px solid #e1e8ed;
+    margin: 10px 0;    
+}
+
+#botoesFiltro {
+    position: absolute;
+    top: 15px;
+    left: 24px;
+}
+
+#botoesFiltro button {
+    border-radius: 6px;
+    margin: 0;
+    padding: 8px 16px;
+    background-color: #eee;
+    color: black;
+    border: 1px solid #bbb;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+#filtros button:hover {
+    background-color: #bbb;
+}
+
 .ativado {
     background-color: #cc7e00 !important;
-    border: 1px solid black !important;
+    border-color: #cc7e00 !important;
     color: white !important;
 }
 
-#filtros button {
-    border-radius: 0;
-    margin: 0;
-    background-color: #f6faf5;
-    color: black;
-    border: solid 1px black;
-}
-
 #ordem {
-    margin-bottom: 30px;
+    margin: 0;
+    padding: 8px 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    cursor: pointer;
 }
 
 table{
     width:100%;
     border-collapse:collapse;
+    text-align: left;
+}
+
+table td, table th {
+    padding: 14px;
+    border-bottom: 1px solid #cec6e1;
+}
+
+#tbodyVistorias button {
+    padding: 8px 13px;
+    border-radius: 5px;
+}
+
+#pagination {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 20px;
+    padding-top: 16px;
+}
+
+#pagination button:hover {
+    background-color: #cc7e00;
+    color: white;
 }
 
 label {
@@ -250,13 +356,6 @@ label {
     margin-top: 12px;
     margin-bottom: 5px;
     font-weight: bold;
-}
-
-.card {
-    background: #eeeeee;
-    padding: 20px 25px;
-    border-radius: 4px;
-    border: black solid 1px;
 }
 
 input,
@@ -272,6 +371,8 @@ textarea {
     border-radius: 4px;
 }
 
+
+
 input::placeholder,
 textarea::placeholder {
     color: #555;
@@ -281,7 +382,6 @@ select {
     background: white;
 }
 
-
 .campos-data {
     display: flex;
     gap: 20px;
@@ -290,7 +390,6 @@ select {
 .campos-data div {
     flex: 1;
 }
-
 
 .checklist {
     display: grid;
@@ -356,16 +455,24 @@ textarea {
 }
 
 
+
+/*CSS LOGIN E CADASTRO*/
 .login-page {
-    min-height: 100vh;
-    background: #f2f2f2;
     color: #222;
+}
+
+.login-page header {
+    text-align: center !important;
 }
 
 .login-stage,
 .login-card {
     width: 100%;
     min-height: 100vh;
+}
+
+#login-title {
+    text-align: center !important;
 }
 
 .login-stage {
@@ -379,34 +486,12 @@ textarea {
     background: #fff;
 }
 
-.login-header {
-    display: flex;
-    min-height: 74px;
-    flex: 0 0 74px;
-    align-items: center;
-    justify-content: center;
-    gap: 14px;
-    margin: 0;
-    padding: 0;
-    border-bottom: 1px solid #999;
-    background: #d0d0d0;
-    box-shadow: none;
-}
-
-.login-logo {
-    display: grid;
-    width: 40px;
-    height: 40px;
-    place-items: center;
-    border: 1px solid #aaa;
-    background: #f4f4f4;
-    color: #555;
-    font-size: 0.7rem;
-}
-
 .login-brand-name {
     font-size: 1.2rem;
     font-weight: 700;
+    text-align: center;
+    width: 100%;
+    margin: 15px 0;
 }
 
 .login-content {
@@ -423,6 +508,14 @@ textarea {
     align-items: center;
     justify-content: center;
     padding: 48px clamp(32px, 4vw, 64px) 48px clamp(170px, 17vw, 230px);
+}
+
+.cadastro-form-panel {
+    position: relative;
+    display: flex;
+    min-width: 0;
+    align-items: center;
+    justify-content: center;
 }
 
 .login-form-inner {
@@ -447,15 +540,9 @@ textarea {
 }
 
 .login-field > input {
-    display: block;
-    width: 100%;
-    height: 44px;
-    margin: 0;
-    padding: 8px 14px;
-    border: 1px solid #c8c8c8;
-    border-radius: 24px;
-    background: #fff;
-    font-size: 1rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    background-color: #fafafa;
 }
 
 .login-password-group {
@@ -503,19 +590,10 @@ textarea {
 
 .login-submit {
     display: block;
-    width: 190px;
     margin: 30px auto 0;
-    padding: 11px 16px;
-    border: 1px solid #aaa;
     border-radius: 3px;
-    background: #f4f4f4;
-    color: #222;
     font-size: 1rem;
     font-weight: 700;
-}
-
-.login-submit:hover {
-    background: #e5e5e5;
 }
 
 .login-register {
@@ -650,10 +728,6 @@ textarea {
 }
 
 @media (max-width: 600px) {
-    .login-header {
-        min-height: 64px;
-        flex-basis: 64px;
-    }
 
     .login-brand-name {
         font-size: 1.05rem;
@@ -681,6 +755,8 @@ textarea {
         min-height: 280px;
     }
 }
+
+
 
 /* Popup cadastro caminhão */
 .modal {

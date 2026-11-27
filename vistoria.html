@@ -10,8 +10,14 @@
 <body>
     
     <header>
-        <img src="https://picsum.photos/45/45" alt="">
-        <button id="deslogar">Sair da conta</button>
+        <span class="brand-name">Vistoria de Caminhões</span>
+        <div style="display: flex; gap: 40px;">
+            <div id="menuHeader">
+                <a href="vistoria.html">Vistorias</a>
+                <a>Ocorrências</a>
+            </div>
+            <button id="deslogar">Sair da conta</button>
+        </div>
     </header>
 
     <main>
@@ -29,13 +35,18 @@
                     <option value="1">Mais recente</option>
                     <option value="2">Mais antigo</option>
                 </select>
-                <button id="fTodos" class="ativado">Todos</button>
-                <button id="concluida" class="desativado">Concluídas</button>
-                <button id="inconcluida" class="desativado">Inconcluídas</button>
 
             </div>
 
             <section class="card">
+
+                <div id="botoesFiltro">
+
+                    <button id="fTodos" class="ativado">Todos</button>
+                    <button id="concluida" class="desativado">Concluídas</button>
+                    <button id="inconcluida" class="desativado">Inconcluídas</button>
+
+                </div>
 
                 <table>
 
@@ -52,6 +63,10 @@
             </section>
 
         </div>
+
+        <footer aria-hidden="true">
+            <p>Site desenvolvido para Disciplina de Desenvolvimento Web Back End</p>
+        </footer>
 
     </main>
 
