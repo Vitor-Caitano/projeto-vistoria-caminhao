@@ -817,6 +817,10 @@ textarea {
     border: solid 1px #bbb;
 }
 
+#btnDelete {
+    display: none;
+}
+
 /* Popup cadastro caminhão */
 .modal {
     display: none;

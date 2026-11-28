@@ -195,7 +195,6 @@ class VistoriaDB {
         console.log(query.sql)
         connection.end()        
     }
-
 }
 
 module.exports = VistoriaDB;
