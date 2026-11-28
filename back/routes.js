@@ -57,6 +57,14 @@ app.get('/vistoria/ocorrencias/:id', (req, res) => {
     })
 })
 
+app.post('/vistoria/ocorrencias', (req, res) => {
+    const ocorrencia = req.body
+
+    OcorrenciaDB.saveOcorrencia(ocorrencia, function (ocorrencia) {
+        res.json(ocorrencia)
+    })    
+})
+
 
 
 //get VISTORIAS

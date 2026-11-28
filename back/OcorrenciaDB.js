@@ -30,6 +30,21 @@ class OcorrenciaDB {
         console.log(query.sql)
         connection.end()        
     }
+
+    static saveOcorrencia(ocorrencia, callback)
+    {
+        let connection = Connect.connect()
+        let sql = 'insert into ocorrencia set ?'
+        let query = connection.query(sql, ocorrencia, function(error, results, fields) {
+            if(error)
+                throw error
+
+            ocorrencia.id = results.insertId
+            callback(ocorrencia)
+        })
+        console.log(query.sql)
+        connection.end()
+    }
 }
 
 module.exports = OcorrenciaDB

@@ -124,7 +124,7 @@ function renderizarVistorias() {
                     class="editarVisualizar"
                     data-cod="${vistoria.Cod_Vistoria}"
                     id="${vistoria.Cod_Vistoria}">
-                    ${vistoria.ID_Analista == JSON.parse(localStorage.getItem("usuario")).idUsuario ? "Editar" : "Visualizar" }
+                    ${vistoria.ID_Analista == JSON.parse(localStorage.getItem("usuario")).idUsuario || vistoria.ID_Operador == JSON.parse(localStorage.getItem("usuario")).idUsuario ? "Editar" : "Visualizar" }
                 </button>
             </td>
         </tr>
@@ -135,8 +135,6 @@ function renderizarVistorias() {
             botao.addEventListener("click", () => {
 
                 const codVistoria = botao.dataset.id;
-
-                abrirPopup(codVistoria);
 
             });
 

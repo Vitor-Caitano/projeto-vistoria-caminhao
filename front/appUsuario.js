@@ -6,7 +6,8 @@ import {
     buscarPorIdVistorias,
     listaItens,
     atualizarVistoria,
-    listarOcorrenciasPorVistoria
+    listarOcorrenciasPorVistoria,
+    salvarOcorrência
 } from './api.js';
 
 import {
@@ -46,8 +47,42 @@ window.addEventListener("DOMContentLoaded", () => {
         window.location.href = "login.html"
     })
 
+    document.getElementById('btnOcorrencia').addEventListener("click", () => {
+        document.getElementById("popupEditar").style.display = "flex";
+    })
+
     const urlParams = new URLSearchParams(window.location.search);
     const codVistoria = urlParams.get('cod');
+
+    document.getElementById("formEditarItem").addEventListener("submit", async(event) => {
+        event.preventDefault();
+        try {
+            document.getElementById("codVistoria").value = Number(codVistoria)
+            const cdgVistoria = document.getElementById("codVistoria").value;
+            const nomeItem = document.getElementById("nomeItem").value;
+            const descricao = document.getElementById("descricaoItem").value;
+            const gravidade = document.getElementById("gravidade").value;
+
+            let regex = /^[^@\$%&()"*#/0-9]+$/
+            if(!regex.test(nomeItem))
+            {
+                alert("Apenas letras no campo nome!")
+                return
+            }
+
+            const resposta = await salvarOcorrência({
+                Cod_Vistoria: Number(cdgVistoria),
+                Titulo: nomeItem,          
+                Descricao: descricao, 
+                Gravidade: gravidade                
+            })
+
+            document.getElementById("popupEditar").style.display = "none"
+        }
+        catch(erro) {
+            console.error("Erro ao salvar ocorrência: ", erro)
+        }
+    })
 
     if (document.getElementById("formVistoria")) {
         inicializarVistoria(codVistoria);
@@ -94,7 +129,7 @@ async function inicializarVistoria(codVistoria) {
 
                 const usuarioLogado = JSON.parse(localStorage.getItem("usuario"));
 
-                if (Number(vistoria.ID_Analista) != Number(usuarioLogado.idUsuario)) {
+                if (Number(vistoria.ID_Analista) != Number(usuarioLogado.idUsuario) && Number(vistoria.ID_Operador) != Number(usuarioLogado.idUsuario)) {
                     const elementos = form.elements;
                     for (let i = 0; i < elementos.length; i++)
                         elementos[i].disabled = true;
@@ -184,17 +219,28 @@ function carregarOperadores(operadores) {
 
 async function carregarOcorrencias(id)
 {
-    const ocorrencias = await listarOcorrenciasPorVistoria(id)
+    const areaOcorrencias = document.getElementById("areaOcorrencias");
+    areaOcorrencias.innerHTML = '';
 
-    ocorrencias.forEach(item => {
-        const areaOcorrencias = document.getElementById("areaOcorrencias");
+    try
+    {
+        const ocorrencias = await listarOcorrenciasPorVistoria(id)
 
         if(ocorrencias.length == 0)
-            areaOcorrencias.innerHTML = 'Não há ocorrências para essa vistoria'
+        areaOcorrencias.innerHTML = 'Não há ocorrências para essa vistoria'
 
-        areaOcorrencias.innerHTML = `
-            <p><strong>Item:</strong> ${item.COD_Ocorrencia}</p>
-            <p><strong>Descrição:</strong> ${item.Titulo}</p>
-        `;
-    });
+        ocorrencias.forEach(item => {
+            const areaOcorrencias = document.getElementById("areaOcorrencias");
+
+            areaOcorrencias.innerHTML += `
+                <div class="ocorrencia">
+                    <p><strong>Descrição:</strong> ${item.Titulo}</p>
+                </div>
+            `;
+        });
+    }
+    catch(erro)
+    {
+        console.error("Erro ao carregar ocorrências:", erro);
+        areaOcorrencias.innerHTML = '<p>Erro ao carregar as ocorrências.</p>';    }
 }

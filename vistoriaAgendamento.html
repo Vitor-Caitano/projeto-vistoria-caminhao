@@ -91,9 +91,9 @@
 
             <section class="card">
                 <h2>Ocorrências</h2>
-                <div id="areaOcorrencias">
-                    
+                <div id="areaOcorrencias">                    
                 </div>
+                <button type="button" id="btnOcorrencia">Criar Ocorrência</button>
             </section>
 
             <section class="card">
@@ -114,19 +114,16 @@
         </form>
 
 
-        <!-- Popup de cadastro de caminhão -->
+        <!-- Popup de cadastro de ocorrencia -->
         <div id="popupEditar" class="popup">
             <div class="popup-conteudo">
-                <h2>Registrar item da vistoria</h2>
+                <h2>Registrar ocorrência da vistoria</h2>
                 <form id="formEditarItem">
                     <input type="hidden" id="codVistoria">
                     <label for="nomeItem">Nome do item:</label>
                     <input type="text" id="nomeItem" placeholder="Ex.: Faróis e lanternas" required>
                     <label for="descricaoItem">Descrição:</label>
                     <textarea id="descricaoItem" placeholder="Descreva a situação encontrada..."required></textarea>
-
-                    <label for="dataEdicao">Data da edição:</label>
-                    <input type="date" id="dataEdicao" required>
 
                     <label for="gravidade">Gravidade:</label>
                     <select id="gravidade" required>

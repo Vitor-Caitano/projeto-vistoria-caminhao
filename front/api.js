@@ -3,7 +3,6 @@ const API_URL = "http://localhost:3000/vistoria";
 
 // métodos de requisição dos usuários
 export async function listarUsuarios() {
-
     const response =
         await fetch(`${API_URL}/usuarios`);
 
@@ -184,5 +183,17 @@ export async function buscarPorDiaVistorias(dia)
 {
     const response = await fetch(`${API_URL}/vistorias/concluido/${dia}`)
     return await response.json()
+}
 
+export async function salvarOcorrência(ocorrencia)
+{
+    const response = await fetch(`${API_URL}/ocorrencias`,{
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(ocorrencia)
+    })
+
+    return await response.json();
 }

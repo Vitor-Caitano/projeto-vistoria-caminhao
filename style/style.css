@@ -813,7 +813,9 @@ textarea {
     }
 }
 
-
+.ocorrencia {
+    border: solid 1px #bbb;
+}
 
 /* Popup cadastro caminhão */
 .modal {
